@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, Sparkles, RefreshCw, Zap } from 'lucide-react';
+import { Send, Sparkles, RefreshCw, Zap } from 'lucide-react';
 
 export default function SimulatorDemo() {
   const [messages, setMessages] = useState([
@@ -34,15 +34,18 @@ export default function SimulatorDemo() {
     { label: 'Can you help me?', cmd: 'Can you help me customize an AI bot?' }
   ];
 
+  const nextId = useRef(10);
+
   const handleSend = (textToSend) => {
     const text = textToSend || inputVal;
     if (!text.trim()) return;
 
+    nextId.current += 1;
     const userMsg = {
-      id: Date.now(),
+      id: nextId.current,
       sender: 'user',
       text: text.trim(),
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      time: '10:41 AM'
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -76,11 +79,12 @@ export default function SimulatorDemo() {
         replyText = `Thank you for reaching out! Our system is 100% self-hosted with zero cloud fees. I can help answer your questions, capture your requirements, or connect you with our lead architect Vedansh Danot.`;
       }
 
+      nextId.current += 1;
       const botMsg = {
-        id: Date.now() + 1,
+        id: nextId.current,
         sender: 'bot',
         text: replyText,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        time: '10:41 AM',
         engine,
         latency
       };

@@ -6,16 +6,20 @@ export default function FAQ() {
 
   const faqs = [
     {
+      q: 'How do I install and start using WhatsAuto?',
+      a: 'Simply download the latest WhatsAuto.exe from GitHub Releases and double-click to run. A green icon will appear in your Windows System Tray. Right-click it to open the dashboard, scan your WhatsApp QR code once, and you are ready to automate!'
+    },
+    {
       q: 'Do I have to scan the QR code every time my laptop restarts?',
-      a: 'No! Your multi-device authentication credentials persist securely in data/auth_info_baileys/. When restarting your computer or launching WhatsAuto, it automatically reconnects in the background without requiring a re-scan.'
+      a: 'No! Your multi-device authentication credentials persist securely on your hard drive in data/auth_info_baileys/. When restarting your computer or launching WhatsAuto, it automatically reconnects in the background without requiring a re-scan.'
     },
     {
       q: 'How does the Antigravity Inbuilt AI work without API keys?',
-      a: 'WhatsAuto interfaces directly with the local Antigravity CLI (agy) installed on your system. It formats contextual prompts from your business profile, persona tone, and knowledge base FAQs to craft natural responses with zero API costs.'
+      a: 'WhatsAuto interfaces directly with the local Antigravity CLI (agy) on your system. It formats contextual prompts from your business profile, persona tone, and knowledge base FAQs to craft natural responses with zero API costs.'
     },
     {
       q: 'How does the Windows System Tray background app work?',
-      a: 'Double-clicking Launch-WhatsAuto.bat or running npm run tray starts WhatsAuto inside an Electron system tray runner. It runs silently without terminal clutter and can automatically start on Windows boot.'
+      a: 'WhatsAuto.exe runs silently in your Windows notification tray. You can right-click the tray icon to toggle "Start on Laptop Boot" so it starts automatically whenever your laptop powers on, keeping your customer auto-replies active 24/7.'
     },
     {
       q: 'How do you ensure my WhatsApp account is safe from bans?',
@@ -23,7 +27,7 @@ export default function FAQ() {
     },
     {
       q: 'Can I customize the conversational CRM lead questions?',
-      a: 'Yes! You can edit any step in the Flow Builder tab or data/flows.json, define custom questions, validation checks, and automatic admin WhatsApp alerts.'
+      a: 'Yes! You can edit any step in the Flow Builder tab or data/flows.json, define custom questions, validation checks, and automatic admin WhatsApp alerts sent directly to your phone.'
     }
   ];
 

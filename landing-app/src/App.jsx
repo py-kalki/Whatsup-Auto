@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import HeroMockup from './components/HeroMockup';
@@ -11,8 +12,83 @@ import HelpView from './components/HelpView';
 import ContactView from './components/ContactView';
 import Footer from './components/Footer';
 
+// Component to scroll to top whenever the URL route changes
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
+
+  return null;
+}
+
+function HomeView({ onNavigate }) {
+  return (
+    <>
+      <Hero onNavigate={onNavigate} />
+      <HeroMockup />
+      <Features />
+      <SimulatorDemo />
+      <Comparison />
+      <FAQ />
+    </>
+  );
+}
+
+function FeaturesPage() {
+  return (
+    <div className="pt-6 pb-12">
+      <Features />
+      <SimulatorDemo />
+      <Comparison />
+    </div>
+  );
+}
+
+function MainLayout({ darkMode, setDarkMode }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavigate = (path) => {
+    const targetPath = path.startsWith('/') ? path : `/${path === 'home' ? '' : path}`;
+    navigate(targetPath);
+  };
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col selection:bg-emerald-600 selection:text-white transition-colors duration-200">
+      {/* Background Grid Accent */}
+      <div className="fixed inset-0 bg-grid pointer-events-none opacity-80 -z-10" />
+
+      {/* Navigation Bar */}
+      <Navbar
+        currentPath={location.pathname}
+        onNavigate={handleNavigate}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
+
+      {/* Main View Routes */}
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<HomeView onNavigate={handleNavigate} />} />
+          <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/about" element={<AboutView onNavigate={handleNavigate} />} />
+          <Route path="/help" element={<HelpView />} />
+          <Route path="/docs" element={<HelpView />} />
+          <Route path="/contact" element={<ContactView />} />
+          {/* Catch-all fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+
+      {/* Footer */}
+      <Footer onNavigate={handleNavigate} />
+    </div>
+  );
+}
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home');
   const [darkMode, setDarkMode] = useState(true);
 
   // Sync dark mode with document root
@@ -25,60 +101,10 @@ export default function App() {
     }
   }, [darkMode]);
 
-  const handleNavigate = (tabId) => {
-    setActiveTab(tabId);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col selection:bg-zinc-900 selection:text-white dark:selection:bg-white dark:selection:text-zinc-900 transition-colors duration-200">
-      {/* Background Grid Accent */}
-      <div className="fixed inset-0 bg-grid pointer-events-none opacity-80 -z-10" />
-
-      {/* Navigation */}
-      <Navbar
-        activeTab={activeTab}
-        setActiveTab={handleNavigate}
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-      />
-
-      {/* Main View Router */}
-      <main className="flex-1">
-        {activeTab === 'home' && (
-          <>
-            <Hero onNavigate={handleNavigate} />
-            <HeroMockup />
-            <Features />
-            <SimulatorDemo />
-            <Comparison />
-            <FAQ />
-          </>
-        )}
-
-        {activeTab === 'features' && (
-          <div className="pt-10">
-            <Features />
-            <SimulatorDemo />
-            <Comparison />
-          </div>
-        )}
-
-        {activeTab === 'about' && (
-          <AboutView onNavigate={handleNavigate} />
-        )}
-
-        {activeTab === 'help' && (
-          <HelpView />
-        )}
-
-        {activeTab === 'contact' && (
-          <ContactView />
-        )}
-      </main>
-
-      {/* Footer */}
-      <Footer onNavigate={handleNavigate} />
-    </div>
+    <BrowserRouter>
+      <ScrollToTop />
+      <MainLayout darkMode={darkMode} setDarkMode={setDarkMode} />
+    </BrowserRouter>
   );
 }

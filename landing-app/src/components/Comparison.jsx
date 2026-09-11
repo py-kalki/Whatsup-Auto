@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, X, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export default function Comparison() {
   const rows = [

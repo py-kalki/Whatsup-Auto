@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Heart, Shield, Cpu, Lock, Sparkles, ArrowRight } from 'lucide-react';
+import { Mail, Heart, Cpu, Lock, Sparkles, ArrowRight } from 'lucide-react';
 import { GithubIcon } from './icons';
 
 export default function AboutView({ onNavigate }) {

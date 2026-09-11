@@ -1,8 +1,10 @@
 import React from 'react';
-import { Mail, Heart } from 'lucide-react';
+import { Mail, Heart, Download } from 'lucide-react';
 import { GithubIcon } from './icons';
 
 export default function Footer({ onNavigate }) {
+  const repoReleaseUrl = "https://github.com/py-kalki/whatsapp-automation/releases";
+
   return (
     <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 py-16 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,7 +12,7 @@ export default function Footer({ onNavigate }) {
           {/* Brand Col */}
           <div className="md:col-span-5 flex flex-col gap-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-black text-sm flex items-center justify-center shadow-xs">
+              <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white font-black text-sm flex items-center justify-center shadow-xs">
                 W
               </div>
               <span className="font-extrabold text-base text-zinc-900 dark:text-white tracking-tight">
@@ -43,29 +45,33 @@ export default function Footer({ onNavigate }) {
               About & Creator
             </button>
             <button onClick={() => onNavigate('help')} className="text-xs hover:text-zinc-900 dark:hover:text-white text-left transition-colors cursor-pointer">
-              Help & Docs
+              Help & Manual
             </button>
             <button onClick={() => onNavigate('contact')} className="text-xs hover:text-zinc-900 dark:hover:text-white text-left transition-colors cursor-pointer">
               Contact
             </button>
           </div>
 
-          {/* Product Links */}
+          {/* Product & Releases */}
           <div className="md:col-span-2 flex flex-col gap-3">
             <div className="text-xs font-bold text-zinc-900 dark:text-white uppercase tracking-wider">
-              Product
+              Download & Setup
             </div>
-            <a href="http://localhost:3000" target="_blank" rel="noreferrer" className="text-xs hover:text-zinc-900 dark:hover:text-white transition-colors">
-              Web Dashboard
+            <a href={repoReleaseUrl} target="_blank" rel="noreferrer" className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 transition-colors">
+              <Download className="w-3 h-3" />
+              <span>Download .exe</span>
+            </a>
+            <a href={repoReleaseUrl} target="_blank" rel="noreferrer" className="text-xs hover:text-zinc-900 dark:hover:text-white transition-colors">
+              GitHub Releases (v2.0)
             </a>
             <button onClick={() => onNavigate('help')} className="text-xs hover:text-zinc-900 dark:hover:text-white text-left transition-colors cursor-pointer">
-              Installation
+              QR Pairing Guide
             </button>
             <button onClick={() => onNavigate('help')} className="text-xs hover:text-zinc-900 dark:hover:text-white text-left transition-colors cursor-pointer">
-              AI Brain Setup
+              Background Auto-Boot
             </button>
             <button onClick={() => onNavigate('help')} className="text-xs hover:text-zinc-900 dark:hover:text-white text-left transition-colors cursor-pointer">
-              Desktop Tray .exe
+              Zero-Key Local AI
             </button>
           </div>
 
@@ -91,7 +97,7 @@ export default function Footer({ onNavigate }) {
               <span>GitHub Repository</span>
             </a>
             <div className="text-[11px] text-zinc-400 mt-2">
-              Distributed under the <strong>MIT License</strong>.
+              Distributed under the <strong>MIT License</strong>. 100% Free forever.
             </div>
           </div>
         </div>

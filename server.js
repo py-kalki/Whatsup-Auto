@@ -33,6 +33,11 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/landing', express.static(path.join(__dirname, 'landing')));
 
+// Redirect help and docs to live documentation site
+app.get(['/help', '/docs', '/landing/help.html'], (req, res) => {
+  res.redirect(302, 'https://whatsauto.vedanshh.dev/help');
+});
+
 // ── Real-time WebSocket Broadcast ──────────────────────────────────────────
 function broadcastWs(type, data) {
   const payload = JSON.stringify({ type, data, timestamp: new Date().toISOString() });

@@ -81,9 +81,9 @@ function updateTrayMenu(status = 'ONLINE') {
       },
     },
     {
-      label: '📖 Open Landing & Docs',
+      label: '📖 Open Help & Docs',
       click: () => {
-        shell.openExternal(`${DASHBOARD_URL}/landing/index.html`);
+        shell.openExternal('https://whatsauto.vedanshh.dev/help');
       },
     },
     {

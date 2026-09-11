@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Copy, Check, Send, Sparkles, MessageSquare, GitPullRequest, Code, ArrowRight } from 'lucide-react';
+import { Mail, Copy, Check, Send, GitPullRequest, Code } from 'lucide-react';
 
 export default function ContactView() {
   const [copied, setCopied] = useState(false);

@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Sun, Moon, Menu, X, Bot, Sparkles, BookOpen, Mail, User } from 'lucide-react';
+import { Download, Sun, Moon, Menu, X, Bot, Sparkles, BookOpen, Mail, User } from 'lucide-react';
 import { GithubIcon } from './icons';
 
-export default function Navbar({ activeTab, setActiveTab, darkMode, setDarkMode }) {
+export default function Navbar({ currentPath = '/', onNavigate, darkMode, setDarkMode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const repoReleaseUrl = "https://github.com/py-kalki/whatsapp-automation/releases";
 
   const navItems = [
-    { id: 'home', label: 'Home', icon: Sparkles },
-    { id: 'features', label: 'Features', icon: Bot },
-    { id: 'about', label: 'About', icon: User },
-    { id: 'help', label: 'Help & Docs', icon: BookOpen },
-    { id: 'contact', label: 'Contact', icon: Mail },
+    { path: '/', label: 'Home', icon: Sparkles },
+    { path: '/features', label: 'Features', icon: Bot },
+    { path: '/about', label: 'About', icon: User },
+    { path: '/help', label: 'Help & Docs', icon: BookOpen },
+    { path: '/contact', label: 'Contact', icon: Mail },
   ];
 
-  const handleNavClick = (id) => {
-    setActiveTab(id);
+  const handleNavClick = (path) => {
+    onNavigate(path);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -24,18 +24,18 @@ export default function Navbar({ activeTab, setActiveTab, darkMode, setDarkMode 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <div 
-          onClick={() => handleNavClick('home')}
+          onClick={() => handleNavClick('/')}
           className="flex items-center gap-3 cursor-pointer select-none group"
         >
-          <div className="w-9 h-9 rounded-xl bg-zinc-900 dark:bg-white flex items-center justify-center text-white dark:text-zinc-900 font-bold text-lg shadow-sm transition-transform group-hover:scale-105">
+          <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-lg shadow-sm transition-transform group-hover:scale-105">
             W
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-bold text-lg tracking-tight text-zinc-900 dark:text-white">
+            <span className="font-extrabold text-lg tracking-tight text-zinc-900 dark:text-white">
               WhatsAuto
             </span>
-            <span className="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">
-              Open Source
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+              Desktop .exe
             </span>
           </div>
         </div>
@@ -44,14 +44,14 @@ export default function Navbar({ activeTab, setActiveTab, darkMode, setDarkMode 
         <nav className="hidden md:flex items-center gap-1 bg-zinc-100/70 dark:bg-zinc-900/70 p-1 rounded-full border border-zinc-200/80 dark:border-zinc-800">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeTab === item.id;
+            const isActive = currentPath === item.path || (item.path === '/help' && currentPath === '/docs');
             return (
               <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
+                key={item.path}
+                onClick={() => handleNavClick(item.path)}
                 className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                   isActive
-                    ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white shadow-sm font-semibold'
+                    ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white shadow-xs font-bold'
                     : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                 }`}
               >
@@ -83,14 +83,15 @@ export default function Navbar({ activeTab, setActiveTab, darkMode, setDarkMode 
             <span>GitHub</span>
           </a>
 
+          {/* Primary CTA: Download .exe */}
           <a
-            href="http://localhost:3000"
+            href={repoReleaseUrl}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-sm transition-all hover:scale-[1.02]"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            <LayoutDashboard className="w-3.5 h-3.5" />
-            <span>Dashboard</span>
+            <Download className="w-3.5 h-3.5" />
+            <span>Download .exe</span>
           </a>
         </div>
 
@@ -116,10 +117,10 @@ export default function Navbar({ activeTab, setActiveTab, darkMode, setDarkMode 
         <div className="md:hidden border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 pt-2 pb-4 flex flex-col gap-1 shadow-lg">
           {navItems.map((item) => (
             <button
-              key={item.id}
-              onClick={() => handleNavClick(item.id)}
+              key={item.path}
+              onClick={() => handleNavClick(item.path)}
               className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-left ${
-                activeTab === item.id
+                currentPath === item.path
                   ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white font-semibold'
                   : 'text-zinc-600 dark:text-zinc-400'
               }`}
@@ -130,13 +131,22 @@ export default function Navbar({ activeTab, setActiveTab, darkMode, setDarkMode 
           ))}
           <div className="pt-2 mt-2 border-t border-zinc-200 dark:border-zinc-800 flex flex-col gap-2">
             <a
-              href="http://localhost:3000"
+              href={repoReleaseUrl}
               target="_blank"
               rel="noreferrer"
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold text-white bg-zinc-900 dark:bg-white dark:text-zinc-900"
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm"
             >
-              <LayoutDashboard className="w-4 h-4" />
-              <span>Open Dashboard</span>
+              <Download className="w-4 h-4" />
+              <span>Download Windows .exe</span>
+            </a>
+            <a
+              href="https://github.com/py-kalki/whatsapp-automation"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800"
+            >
+              <GithubIcon className="w-3.5 h-3.5" />
+              <span>View GitHub Repository</span>
             </a>
           </div>
         </div>

@@ -19,21 +19,15 @@
       "output": "dist"
     },
     "win": {
-      "target": [
-        "dir"
-      ],
-      "icon": "public/logo-whatsup.png"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "runAfterFinish": true
+      "target": "dir",
+      "icon": "public/logo-whatsup.png",
+      "sign": null
     },
     "files": [
       "**/*",
-      "!dist/*"
+      "!dist/*",
+      "!landing-app/node_modules/**/*",
+      "!data/auth_info_baileys/**/*"
     ]
   },
   "dependencies": {
