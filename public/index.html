@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsAuto • WhatsApp Automation Suite</title>
+  <link rel="icon" type="image/png" href="logo-whatsup.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Vector Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <!-- Brand Wordmark with User Provided Logo -->
+        <div class="brand" data-tab="tab-overview">
+          <img src="logo-whatsup.png" alt="WhatsAuto" class="brand-logo-img" />
+          <span class="brand-text">WhatsAuto</span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="nav-menu">
+          <button class="nav-item active" data-tab="tab-overview">
+            <span class="nav-icon">
+              <i data-lucide="layout-dashboard"></i>
+            </span>
+            <span class="nav-label">Dashboard</span>
+          </button>
+
+          <button class="nav-item" data-tab="tab-simulator">
+            <span class="nav-icon">
+              <i data-lucide="message-square-dashed"></i>
+            </span>
+            <span class="nav-label">Simulator</span>
+            <span class="pulse-badge">LIVE TEST</span>
+          </button>
+
+          <button class="nav-item" data-tab="tab-rules">
+            <span class="nav-icon">
+              <i data-lucide="zap"></i>
+            </span>
+            <span class="nav-label">Automation Rules</span>
+            <span class="nav-chevron"><i data-lucide="chevron-down"></i></span>
+          </button>
+
+          <button class="nav-item" data-tab="tab-ai">
+            <span class="nav-icon">
+              <i data-lucide="bot"></i>
+            </span>
+            <span class="nav-label">AI Brain (Antigravity)</span>
+            <span class="nav-chevron"><i data-lucide="chevron-down"></i></span>
+          </button>
+
+          <button class="nav-item" data-tab="tab-campaigns">
+            <span class="nav-icon">
+              <i data-lucide="send"></i>
+            </span>
+            <span class="nav-label">Broadcast Campaigns</span>
+          </button>
+
+          <button class="nav-item" data-tab="tab-contacts">
+            <span class="nav-icon">
+              <i data-lucide="users"></i>
+            </span>
+            <span class="nav-label">Contacts & Tags</span>
+          </button>
+
+          <button class="nav-item" data-tab="tab-flows">
+            <span class="nav-icon">
+              <i data-lucide="git-branch"></i>
+            </span>
+            <span class="nav-label">Lead CRM & Flows</span>
+          </button>
+
+          <button class="nav-item" data-tab="tab-logs">
+            <span class="nav-icon">
+              <i data-lucide="activity"></i>
+            </span>
+            <span class="nav-label">Activity & Logs</span>
+          </button>
+        </nav>
+
+        <!-- WhatsApp Gateway Engine Card in Sidebar -->
+        <div class="sidebar-pro-card">
+          <div class="pro-card-title">
+            <span style="display: inline-flex; align-items: center; gap: 6px;"><i data-lucide="radio" style="width: 15px; height: 15px; color: var(--brand-accent);"></i> WhatsApp Engine</span>
+          </div>
+          <div class="pro-card-desc">Baileys Native & OpenWA multi-device automation</div>
+          <button class="btn-pro-action" id="btnQuickConnect">Link Phone (QR)</button>
+        </div>
+      </div>
+
+      <!-- Bottom Menu (Settings, Help Center, Gateway Status) -->
+      <div class="sidebar-bottom">
+        <button class="nav-item" data-tab="tab-settings">
+          <span class="nav-icon">
+            <i data-lucide="settings"></i>
+          </span>
+          <span class="nav-label">Settings</span>
+        </button>
+
+        <a href="/landing/index.html" class="nav-item" target="_blank" style="text-decoration:none; color:inherit;">
+          <span class="nav-icon">
+            <i data-lucide="globe"></i>
+          </span>
+          <span class="nav-label">Landing Page</span>
+        </a>
+
+        <a href="/landing/help.html" class="nav-item" target="_blank" style="text-decoration:none; color:inherit;">
+          <span class="nav-icon">
+            <i data-lucide="help-circle"></i>
+          </span>
+          <span class="nav-label">Help & Docs</span>
+        </a>
+
+        <button class="nav-item" id="btnGatewayStatusItem">
+          <span class="nav-icon">
+            <i data-lucide="shield-check"></i>
+          </span>
+          <span class="nav-label" id="sidebarGatewayLabel">Gateway: Ready</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Header Bar -->
+      <header class="top-header">
+        <div class="header-left">
+          <h1 class="page-main-title" id="pageTitle">Dashboard</h1>
+        </div>
+
+        <div class="header-right">
+          <!-- Time Filter Pill Group -->
+          <div class="nav-pill-group" id="timeFilterGroup">
+            <button class="pill-segment" data-period="day">Day</button>
+            <button class="pill-segment" data-period="week">Week</button>
+            <button class="pill-segment active" data-period="month">Month</button>
+            <button class="pill-segment" data-period="year">Year</button>
+          </div>
+
+          <!-- Date Range Selector Pill -->
+          <div class="date-range-pill" id="btnDateRangePicker">
+            <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+            <span id="currentDateRangeLabel">Live System Data</span>
+          </div>
+
+          <!-- Search Bar Pill -->
+          <div class="header-search-bar">
+            <span class="search-icon-fixed"><i data-lucide="search" style="width: 14px; height: 14px;"></i></span>
+            <input type="text" class="search-input-pill" id="globalSearchInput" placeholder="Search messages, rules..." />
+          </div>
+
+          <!-- User Profile Avatar with Logo -->
+          <div class="header-avatar" id="btnUserProfile" title="WhatsApp Automation Admin">
+            <img src="logo-whatsup.png" alt="WhatsAuto Admin" />
+          </div>
+        </div>
+      </header>
+
+      <!-- Scrollable Tab Content Wrapper -->
+      <div class="tab-content-wrapper">
+
+        <!-- ====================================================================
+             TAB 1: MAIN DASHBOARD (OVERVIEW)
+             ==================================================================== -->
+        <section id="tab-overview" class="tab-panel active">
+          <!-- Row 1: KPI Metrics Grid (100% Real Live WhatsApp Metrics) -->
+          <div class="kpi-grid">
+            <!-- Card 1: Featured Dark Card (Total Messages Processed) -->
+            <div class="kpi-card kpi-card-featured">
+              <div class="kpi-header">
+                <span class="kpi-title">Total Messages</span>
+              </div>
+              <div class="kpi-value" id="statRevenue">0</div>
+              <div class="kpi-footer">
+                <span class="kpi-growth positive">● Real-time</span>
+                <span>System Dispatches</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Active Contacts -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Active Contacts</span>
+              </div>
+              <div class="kpi-value" id="statActiveUsers">0</div>
+              <div class="kpi-footer">
+                <span class="kpi-growth positive">● Live</span>
+                <span>Saved Contacts</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Captured Leads -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Captured Leads</span>
+              </div>
+              <div class="kpi-value" id="statNewUsers">0</div>
+              <div class="kpi-footer">
+                <span class="kpi-growth positive">● Live</span>
+                <span>CRM Submissions</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Active Bot Rules & Automations -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Active Bot Rules</span>
+              </div>
+              <div class="kpi-value" id="statTotalMentors">0</div>
+              <div class="kpi-footer">
+                <span class="kpi-growth positive">● Live</span>
+                <span>Enabled Triggers</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Analytics Rounded Bar Chart & Calendar Widget (2 Columns) -->
+          <div class="middle-grid">
+            <!-- Left: Message Traffic & Response Volume Bar Chart Card -->
+            <div class="card-container">
+              <div class="card-header-row">
+                <h3 class="card-title">Message Traffic</h3>
+                <button class="card-action-btn" title="View Traffic Details"><i data-lucide="arrow-up-right"></i></button>
+              </div>
+
+              <!-- Bar Chart Component -->
+              <div class="bar-chart-wrapper">
+                <div class="chart-y-axis" id="chartYAxis">
+                  <span>Max</span>
+                  <span>75%</span>
+                  <span>50%</span>
+                  <span>25%</span>
+                  <span>0</span>
+                </div>
+                <div class="chart-bars-area" id="chartBarsContainer">
+                  <div class="bar-col" data-month="Apr" title="Apr: 0 messages">
+                    <div class="bar-pill" style="height: 8px;"></div>
+                    <span class="bar-label">Apr</span>
+                  </div>
+                  <div class="bar-col" data-month="May" title="May: 0 messages">
+                    <div class="bar-pill" style="height: 8px;"></div>
+                    <span class="bar-label">May</span>
+                  </div>
+                  <div class="bar-col" data-month="Jun" title="Jun: 0 messages">
+                    <div class="bar-pill" style="height: 8px;"></div>
+                    <span class="bar-label">Jun</span>
+                  </div>
+                  <div class="bar-col" data-month="Jul" title="Jul: 0 messages">
+                    <div class="bar-pill" style="height: 8px;"></div>
+                    <span class="bar-label">Jul</span>
+                  </div>
+                  <div class="bar-col" data-month="Aug" title="Aug: 0 messages">
+                    <div class="bar-pill" style="height: 8px;"></div>
+                    <span class="bar-label">Aug</span>
+                  </div>
+                  <div class="bar-col highlighted" data-month="Sep" title="Sep: Real messages">
+                    <div class="bar-pill" style="height: 8px;"></div>
+                    <span class="bar-label">Sep</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Broadcast Scheduler & Delivery Success Donut Widget -->
+            <div class="card-container calendar-widget">
+              <div class="cal-header">
+                <button class="cal-nav-btn" id="btnCalPrev"><i data-lucide="chevron-left" style="width: 14px; height: 14px;"></i></button>
+                <h4 class="cal-title" id="calMonthTitle">September 2024</h4>
+                <button class="cal-nav-btn" id="btnCalNext"><i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i></button>
+              </div>
+
+              <div class="cal-days-strip">
+                <div class="cal-day-cell">
+                  <span class="day-name">Tue</span>
+                  <span class="day-num">17</span>
+                </div>
+                <div class="cal-day-cell">
+                  <span class="day-name">Wed</span>
+                  <span class="day-num">18</span>
+                </div>
+                <div class="cal-day-cell active">
+                  <span class="day-name">Thu</span>
+                  <span class="day-num">19</span>
+                </div>
+                <div class="cal-day-cell">
+                  <span class="day-name">Fri</span>
+                  <span class="day-num">20</span>
+                </div>
+                <div class="cal-day-cell">
+                  <span class="day-name">Sat</span>
+                  <span class="day-num">21</span>
+                </div>
+              </div>
+
+              <div class="cal-divider"></div>
+
+              <!-- Delivery Health & Donut Progress Ring -->
+              <div class="community-growth-row">
+                <div class="growth-info">
+                  <h4>Delivery Health</h4>
+                  <div class="growth-metric-badge">
+                    <span id="deliveryHealthStatusText">● 100%</span>
+                    <span style="color: var(--muted); font-weight: normal;">success rate</span>
+                  </div>
+                </div>
+
+                <div class="donut-progress-container">
+                  <svg class="donut-progress-svg" viewBox="0 0 58 58">
+                    <circle class="donut-progress-bg" cx="29" cy="29" r="25"></circle>
+                    <circle class="donut-progress-fill" cx="29" cy="29" r="25" id="donutProgressCircle" style="stroke-dashoffset: 0;"></circle>
+                  </svg>
+                  <span class="donut-center-text" id="donutPercentageText">100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Session & Gateway Hub Row -->
+          <div class="gateway-quick-row" id="sectionGatewayConnection">
+            <!-- WhatsApp Connection Card -->
+            <div class="card-container">
+              <div class="card-header-row">
+                <div>
+                  <h3 class="card-title">WhatsApp Session Connection</h3>
+                  <p class="form-hint">Link phone with Baileys or OpenWA to start automating</p>
+                </div>
+                <span class="badge-status-pill badge-warning" id="sessionStatusBadge">Checking</span>
+              </div>
+              <div class="qr-scan-box">
+                <div class="qr-preview-frame">
+                  <div id="qrPlaceholder" style="text-align: center; font-size: 11px; color: var(--muted);">
+                    <div style="margin-bottom: 6px;"><i data-lucide="smartphone" style="width: 26px; height: 26px; color: var(--muted);"></i></div>
+                    <span>Ready</span>
+                  </div>
+                  <img id="qrImage" class="qr-preview-img hidden" alt="QR" />
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; font-weight: 600; color: var(--ink);">Instant Device Linking</div>
+                  <p style="font-size: 12px; color: var(--muted); margin: 4px 0 12px;">Open WhatsApp &rarr; Linked Devices &rarr; Link a Device</p>
+                  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn btn-primary btn-sm" id="btnStartSession"><i data-lucide="play"></i> Start Session</button>
+                    <button class="btn btn-secondary btn-sm" id="btnStopSession"><i data-lucide="square"></i> Stop</button>
+                    <button class="btn btn-secondary btn-sm" id="btnFetchQR"><i data-lucide="refresh-cw"></i> Refresh QR</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Auto-Webhook & Direct Send -->
+            <div class="card-container">
+              <div class="card-header-row">
+                <div>
+                  <h3 class="card-title">Gateway Actions & Direct Dispatch</h3>
+                  <p class="form-hint">Auto-register webhook & send direct messages</p>
+                </div>
+                <button class="btn btn-primary btn-sm" id="btnQuickSend"><i data-lucide="send"></i> Send Message</button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                  <span style="color: var(--muted);">Engine:</span>
+                  <strong style="color: var(--ink);" id="infoEngineType">Native Baileys (Zero-Config)</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                  <span style="color: var(--muted);">AI Fallback:</span>
+                  <span class="badge-status-pill badge-success" id="infoAiStatus">Active (Antigravity AI)</span>
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 6px;">
+                  <button class="btn btn-secondary btn-sm" id="btnAutoRegisterWebhook" style="flex: 1;"><i data-lucide="link"></i> Register Webhook</button>
+                  <button class="btn btn-secondary btn-sm" id="btnRefreshStatus"><i data-lucide="refresh-cw"></i> Refresh Data</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Recent WhatsApp Activity & Dispatches Table Card -->
+          <div class="table-card">
+            <div class="table-header-bar">
+              <div class="table-header-left">
+                <h3 class="table-title">Recent WhatsApp Dispatches</h3>
+                <span style="font-size: 11px; color: var(--muted-soft); margin-left: 10px;">(Click any message row to view full details)</span>
+              </div>
+              <div class="table-actions">
+                <button class="card-action-btn" id="btnRefreshPurchases" title="Refresh"><i data-lucide="refresh-cw"></i></button>
+                <button class="card-action-btn" id="btnViewAllPurchases" title="View all"><i data-lucide="external-link"></i></button>
+              </div>
+            </div>
+
+            <!-- Live Search Results Notice Banner -->
+            <div id="searchResultsBanner" class="search-banner hidden">
+              <span id="searchResultsText">Found 0 matching messages</span>
+              <button id="btnClearSearch" class="btn-clear-search"><i data-lucide="x"></i> Clear Filter</button>
+            </div>
+
+            <div class="data-table-container">
+              <table class="clean-table">
+                <thead>
+                  <tr>
+                    <th>Contact / Recipient</th>
+                    <th>WhatsApp ID</th>
+                    <th>Message Payload</th>
+                    <th>Trigger / Automation</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="purchasesTableBody">
+                  <!-- Dynamic real rows rendered by app.js from actual logs -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 2: INTERACTIVE SIMULATOR
+             ==================================================================== -->
+        <section id="tab-simulator" class="tab-panel">
+          <div class="simulator-split">
+            <!-- Phone Mockup Container -->
+            <div class="phone-mockup-card">
+              <div class="phone-top-bar">
+                <div class="phone-avatar-circle">
+                  <img src="logo-whatsup.png" alt="WhatsAuto Bot" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" />
+                </div>
+                <div class="phone-header-info">
+                  <h4>WhatsAuto Bot</h4>
+                  <span>Online • Automated Assistant</span>
+                </div>
+              </div>
+              <div class="phone-messages-body" id="simMessagesContainer">
+                <div class="msg-bubble bot">
+                  <div class="msg-text">Hello! I am your custom WhatsApp automation bot. Type <code>/menu</code> or ask any question!</div>
+                  <div class="msg-time">Just now</div>
+                </div>
+              </div>
+              <div class="phone-input-bar">
+                <input type="text" id="simInputText" placeholder="Type a message (e.g. /menu, /services, quote)..." />
+                <button id="simSendBtn" class="phone-send-btn"><i data-lucide="send" style="width: 15px; height: 15px;"></i></button>
+              </div>
+            </div>
+
+            <!-- Inspector Panel -->
+            <div class="inspector-card">
+              <div class="card-header-row">
+                <div>
+                  <h3 class="card-title">Execution Inspector & Diagnostics</h3>
+                  <p class="form-hint">Trace rule matching, AI reasoning, and latency in real-time</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" id="btnResetSimChat"><i data-lucide="rotate-ccw"></i> Clear Chat</button>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label>Sender Name</label>
+                  <input type="text" id="simSenderName" class="form-input" value="Alex Smith" />
+                </div>
+                <div class="form-group">
+                  <label>Sender WhatsApp ID</label>
+                  <input type="text" id="simSenderChatId" class="form-input" value="1234567890@s.whatsapp.net" />
+                </div>
+              </div>
+
+              <div>
+                <label style="font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px; display: block;">Last Execution Trace:</label>
+                <div class="trace-code-box" id="simTraceBox">Send a message in the simulator to view execution details...</div>
+              </div>
+
+              <div>
+                <label style="font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px; display: block;">Quick Test Triggers:</label>
+                <div class="quick-trigger-chips">
+                  <button class="chip-btn" onclick="triggerSimCommand('/menu')">/menu</button>
+                  <button class="chip-btn" onclick="triggerSimCommand('/services')">/services</button>
+                  <button class="chip-btn" onclick="triggerSimCommand('/pricing')">/pricing</button>
+                  <button class="chip-btn" onclick="triggerSimCommand('/lead')">/lead</button>
+                  <button class="chip-btn" onclick="triggerSimCommand('/human')">/human</button>
+                  <button class="chip-btn" onclick="triggerSimCommand('How do I automate my business WhatsApp?')">Ask AI</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 3: AUTOMATION RULES
+             ==================================================================== -->
+        <section id="tab-rules" class="tab-panel">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <div>
+                <h3 class="table-title">Keyword & Command Rules</h3>
+                <p class="form-hint">Configure deterministic responses, command menus, and auto-reactions</p>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btnOpenNewRuleModal"><i data-lucide="plus"></i> Add New Rule</button>
+            </div>
+
+            <div class="data-table-container">
+              <table class="clean-table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Rule Name</th>
+                    <th>Trigger Type</th>
+                    <th>Keywords / Pattern</th>
+                    <th>Response Preview</th>
+                    <th>Emoji / Action</th>
+                    <th>Priority</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="rulesTableBody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 4: AI BRAIN
+             ==================================================================== -->
+        <section id="tab-ai" class="tab-panel">
+          <div class="grid-2">
+            <div class="card-container">
+              <div class="card-header-row">
+                <div>
+                  <h3 class="card-title">AI Assistant Configuration</h3>
+                  <p class="form-hint">Configure Antigravity Inbuilt AI (No API Key), Google Gemini, or OpenAI</p>
+                </div>
+              </div>
+              <form id="aiConfigForm">
+                <div class="form-group">
+                  <label>AI Provider</label>
+                  <select id="aiProviderSelect" class="form-input">
+                    <option value="antigravity" selected>Antigravity Inbuilt AI (Zero API Key / No Ollama Needed)</option>
+                    <option value="gemini">Google Gemini (Cloud API)</option>
+                    <option value="openai">OpenAI ChatGPT (Cloud API)</option>
+                    <option value="disabled">Disabled (Rules Only)</option>
+                  </select>
+                </div>
+
+                <!-- Antigravity Inbuilt AI Active Status Card -->
+                <div id="antigravityConfigFields" class="antigravity-active-card">
+                  <div class="antigravity-badge-header">
+                    <div class="antigravity-icon-wrapper"><i data-lucide="sparkles" style="width: 18px; height: 18px; color: var(--brand-accent);"></i></div>
+                    <div style="flex: 1;">
+                      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                        <span class="antigravity-title">Antigravity CLI Inbuilt AI Engine</span>
+                        <span class="badge-status-pill badge-success">● Connected & Ready</span>
+                      </div>
+                      <p class="form-hint" style="margin: 3px 0 0;">Zero API Key required • Zero Ollama daemon needed • Unlimited native AI processing</p>
+                    </div>
+                  </div>
+                  <div class="antigravity-feature-pills">
+                    <span class="feat-pill"><i data-lucide="terminal"></i> Native CLI Engine (<code>agy</code>)</span>
+                    <span class="feat-pill"><i data-lucide="shield-check"></i> 100% Local & No External Key</span>
+                    <span class="feat-pill"><i data-lucide="user-check"></i> Persona & Context Aware</span>
+                  </div>
+                </div>
+
+                <div id="geminiConfigFields" class="hidden">
+                  <div class="form-group">
+                    <label>Gemini API Key</label>
+                    <input type="password" id="geminiApiKeyInput" class="form-input" placeholder="AIzaSy..." />
+                    <small class="form-hint">Get a free key from <a href="https://aistudio.google.com" target="_blank" style="color: var(--brand-accent);">Google AI Studio</a></small>
+                  </div>
+                  <div class="form-group">
+                    <label>Gemini Model</label>
+                    <select id="geminiModelSelect" class="form-input">
+                      <option value="gemini-2.0-flash">gemini-2.0-flash (Fast & Accurate)</option>
+                      <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+                      <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div id="openaiConfigFields" class="hidden">
+                  <div class="form-group">
+                    <label>OpenAI API Key</label>
+                    <input type="password" id="openaiApiKeyInput" class="form-input" placeholder="sk-..." />
+                  </div>
+                  <div class="form-group">
+                    <label>OpenAI Model</label>
+                    <select id="openaiModelSelect" class="form-input">
+                      <option value="gpt-4o-mini">gpt-4o-mini</option>
+                      <option value="gpt-4o">gpt-4o</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>AI Persona & System Prompt</label>
+                  <textarea id="aiSystemPromptInput" class="form-input code-font" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label>Knowledge Base & Business FAQs</label>
+                  <textarea id="aiKnowledgeBaseInput" class="form-input code-font" rows="5" placeholder="Provide pricing, service details, operating hours..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-2"><i data-lucide="save"></i> Save AI Settings</button>
+              </form>
+            </div>
+
+            <div class="card-container">
+              <div class="card-header-row">
+                <div>
+                  <h3 class="card-title">Hybrid Engine Guide</h3>
+                  <p class="form-hint">How deterministic rules and AI collaborate</p>
+                </div>
+              </div>
+              <div style="font-size: 13px; line-height: 1.6; color: var(--body);">
+                <p style="margin-bottom: 12px;"><strong>1. Strict Priority:</strong> When a user sends a message, exact keyword rules (e.g. <code>/menu</code>, <code>/pricing</code>) evaluate first.</p>
+                <p style="margin-bottom: 12px;"><strong>2. Antigravity Inbuilt AI:</strong> If no keyword matches, the built-in Antigravity AI Engine answers naturally using your Admin Profile, persona tone, and knowledge base—with zero external API costs.</p>
+                <p style="margin-bottom: 12px;"><strong>3. Multi-turn Memory:</strong> The engine retains recent conversation history for seamless multi-turn customer dialogues.</p>
+                <p><strong>4. WhatsApp Safe Formatting:</strong> Outputs are automatically styled with WhatsApp markdown (*bold*, `code`, bullet points) and crisp length.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 5: LEAD FLOWS & CRM
+             ==================================================================== -->
+        <section id="tab-flows" class="tab-panel">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <div>
+                <h3 class="table-title">Captured Leads & Questionnaire Submissions</h3>
+                <p class="form-hint">View and export customer details collected by conversation flows</p>
+              </div>
+              <a href="/api/leads/export" class="btn btn-secondary btn-sm"><i data-lucide="download"></i> Export to CSV</a>
+            </div>
+
+            <div class="data-table-container">
+              <table class="clean-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>WhatsApp ID</th>
+                    <th>Flow Name</th>
+                    <th>Captured Details</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="leadsTableBody">
+                  <!-- Dynamic leads -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 6: CAMPAIGNS
+             ==================================================================== -->
+        <section id="tab-campaigns" class="tab-panel">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <div>
+                <h3 class="table-title">Broadcast Campaigns & Drip Scheduler</h3>
+                <p class="form-hint">Send personalized bulk messages with safe anti-ban rate limiting</p>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btnOpenNewCampaignModal"><i data-lucide="plus"></i> Create New Campaign</button>
+            </div>
+
+            <div class="data-table-container">
+              <table class="clean-table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Campaign Name</th>
+                    <th>Target Audience</th>
+                    <th>Schedule Type</th>
+                    <th>Progress (Sent / Total)</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="campaignsTableBody">
+                  <!-- Dynamic campaigns -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 7: CONTACTS
+             ==================================================================== -->
+        <section id="tab-contacts" class="tab-panel">
+          <div class="table-card">
+            <div class="table-header-bar">
+              <div>
+                <h3 class="table-title">Contacts & Audience Tagging</h3>
+                <p class="form-hint">Manage recipients and segment with tags (VIP, Lead, Client)</p>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btnOpenNewContactModal"><i data-lucide="plus"></i> Add Contact</button>
+            </div>
+
+            <div class="data-table-container">
+              <table class="clean-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>WhatsApp ID</th>
+                    <th>Tags</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="contactsTableBody">
+                  <!-- Dynamic contacts -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 8: SETTINGS
+             ==================================================================== -->
+        <section id="tab-settings" class="tab-panel">
+          <div class="card-container">
+            <div class="card-header-row">
+              <div>
+                <h3 class="card-title">System Settings & Anti-Ban Config</h3>
+                <p class="form-hint">Configure OpenWA connection credentials, jitter delays, and auto-responders</p>
+              </div>
+            </div>
+            <form id="generalSettingsForm">
+              <div class="grid-2">
+                <div class="form-group">
+                  <label>OpenWA Gateway URL</label>
+                  <input type="text" id="settingOpenwaUrl" class="form-input" value="http://localhost:2785" />
+                </div>
+                <div class="form-group">
+                  <label>OpenWA Session ID</label>
+                  <input type="text" id="settingSessionId" class="form-input" value="default" />
+                </div>
+                <div class="form-group">
+                  <label>OpenWA API Key</label>
+                  <input type="password" id="settingOpenwaApiKey" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label>Admin Notification Number (for Lead Alerts)</label>
+                  <input type="text" id="settingAdminNumber" class="form-input" placeholder="e.g. 1234567890@c.us" />
+                </div>
+              </div>
+
+              <hr class="divider-line" />
+
+              <h4 style="font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;"><i data-lucide="shield" style="width: 16px; height: 16px;"></i> Anti-Ban & Safe Sending Jitter:</h4>
+              <div class="grid-2">
+                <div class="form-group">
+                  <label>Min Delay Between Broadcast Messages (ms)</label>
+                  <input type="number" id="settingDelayMin" class="form-input" value="4000" />
+                </div>
+                <div class="form-group">
+                  <label>Max Delay Between Broadcast Messages (ms)</label>
+                  <input type="number" id="settingDelayMax" class="form-input" value="9000" />
+                </div>
+              </div>
+
+              <hr class="divider-line" />
+
+              <h4 style="font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;"><i data-lucide="phone-off" style="width: 16px; height: 16px;"></i> Auto-Call Management:</h4>
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="settingAutoCallReject" checked />
+                  Automatically reject voice/video calls and send courteous text
+                </label>
+              </div>
+              <div class="form-group">
+                <label>Auto-Call Polite Message</label>
+                <textarea id="settingAutoCallMsg" class="form-input" rows="2"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary mt-4"><i data-lucide="save"></i> Save All Settings</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ====================================================================
+             TAB 9: LOGS
+             ==================================================================== -->
+        <section id="tab-logs" class="tab-panel">
+          <div class="card-container">
+            <div class="card-header-row">
+              <div>
+                <h3 class="card-title">Real-Time Event Logs</h3>
+                <p class="form-hint">Stream of incoming messages, webhook dispatches, AI triggers, and delivery receipts</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btnClearLogsView"><i data-lucide="trash-2"></i> Clear View</button>
+            </div>
+            <div class="log-stream-container" id="logStreamBox">
+              <!-- Dynamic logs -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ====================================================================
+       MODALS
+       ==================================================================== -->
+  <!-- Direct Message Modal -->
+  <div class="modal-backdrop hidden" id="directSendModal">
+    <div class="modal-dialog">
+      <div class="modal-header-row">
+        <h3 class="modal-heading">Send Direct WhatsApp Message</h3>
+        <button class="modal-close-btn" onclick="closeModal('directSendModal')">&times;</button>
+      </div>
+      <form id="directSendForm">
+        <div class="form-group">
+          <label>Recipient WhatsApp Number / Chat ID</label>
+          <input type="text" id="directSendChatId" class="form-input" placeholder="e.g. 1234567890 or 1234567890@c.us" required />
+        </div>
+        <div class="form-group">
+          <label>Message Content</label>
+          <textarea id="directSendText" class="form-input" rows="4" placeholder="Hello from WhatsApp Automation..." required></textarea>
+        </div>
+        <div class="modal-footer-btns">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('directSendModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="send"></i> Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Rule Add/Edit Modal -->
+  <div class="modal-backdrop hidden" id="ruleModal">
+    <div class="modal-dialog">
+      <div class="modal-header-row">
+        <h3 class="modal-heading" id="ruleModalTitle">Add Automation Rule</h3>
+        <button class="modal-close-btn" onclick="closeModal('ruleModal')">&times;</button>
+      </div>
+      <form id="ruleForm">
+        <input type="hidden" id="ruleEditId" />
+        <div class="form-group">
+          <label>Rule Name</label>
+          <input type="text" id="ruleNameInput" class="form-input" placeholder="e.g. FAQ / Pricing" required />
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Trigger Type</label>
+            <select id="ruleTriggerTypeSelect" class="form-input">
+              <option value="exact_or_command">Command or Exact Match (/menu, help)</option>
+              <option value="contains">Contains Keyword (price, support)</option>
+              <option value="starts_with">Starts With</option>
+              <option value="regex">Regular Expression (Regex)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Priority (1 - 10)</label>
+            <input type="number" id="rulePriorityInput" class="form-input" value="5" min="1" max="10" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Keywords / Patterns (comma separated)</label>
+          <input type="text" id="ruleKeywordsInput" class="form-input" placeholder="/services, services, what we do" required />
+        </div>
+        <div class="form-group">
+          <label>Reply Text</label>
+          <textarea id="ruleReplyTextInput" class="form-input" rows="4" placeholder="Your WhatsApp formatted response text..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Reaction Symbol / Action (Optional)</label>
+          <input type="text" id="ruleEmojiInput" class="form-input" placeholder="Optional reaction note or symbol" />
+        </div>
+        <div class="modal-footer-btns">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('ruleModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Save Rule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Campaign Modal -->
+  <div class="modal-backdrop hidden" id="campaignModal">
+    <div class="modal-dialog">
+      <div class="modal-header-row">
+        <h3 class="modal-heading">Create Broadcast Campaign</h3>
+        <button class="modal-close-btn" onclick="closeModal('campaignModal')">&times;</button>
+      </div>
+      <form id="campaignForm">
+        <div class="form-group">
+          <label>Campaign Name</label>
+          <input type="text" id="campNameInput" class="form-input" placeholder="e.g. September Special Announcement" required />
+        </div>
+        <div class="form-group">
+          <label>Target Audience</label>
+          <select id="campTargetSelect" class="form-input">
+            <option value="all">All Contacts</option>
+            <option value="tags">By Tags (e.g. VIP, Client)</option>
+          </select>
+        </div>
+        <div class="form-group hidden" id="campTagsGroup">
+          <label>Tags (comma separated)</label>
+          <input type="text" id="campTagsInput" class="form-input" placeholder="VIP, Client" />
+        </div>
+        <div class="form-group">
+          <label>Message Template (Use {{name}}, {{phone}})</label>
+          <textarea id="campTemplateInput" class="form-input" rows="4" placeholder="Hi {{name}}! We are thrilled to share..." required></textarea>
+        </div>
+        <div class="modal-footer-btns">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('campaignModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Create Campaign</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contact Modal -->
+  <div class="modal-backdrop hidden" id="contactModal">
+    <div class="modal-dialog">
+      <div class="modal-header-row">
+        <h3 class="modal-heading">Add Contact</h3>
+        <button class="modal-close-btn" onclick="closeModal('contactModal')">&times;</button>
+      </div>
+      <form id="contactForm">
+        <div class="form-group">
+          <label>Contact Name</label>
+          <input type="text" id="contactNameInput" class="form-input" placeholder="Jane Doe" required />
+        </div>
+        <div class="form-group">
+          <label>Phone Number (with country code, digits only)</label>
+          <input type="text" id="contactPhoneInput" class="form-input" placeholder="e.g. 1234567890" required />
+        </div>
+        <div class="form-group">
+          <label>Tags (comma separated)</label>
+          <input type="text" id="contactTagsInput" class="form-input" placeholder="VIP, Lead, Client" />
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <input type="text" id="contactNotesInput" class="form-input" placeholder="Key enterprise client" />
+        </div>
+        <div class="modal-footer-btns">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('contactModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Save Contact</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Date Range Filter Modal -->
+  <div class="modal-backdrop hidden" id="dateFilterModal">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header-row">
+        <h3 class="modal-heading" style="display: flex; align-items: center; gap: 6px;"><i data-lucide="calendar" style="width: 18px; height: 18px;"></i> Filter by Date Range</h3>
+        <button class="modal-close-btn" onclick="closeModal('dateFilterModal')">&times;</button>
+      </div>
+      <div class="date-preset-grid">
+        <button type="button" class="btn-preset-pill" onclick="applyDatePreset('today')">Today</button>
+        <button type="button" class="btn-preset-pill" onclick="applyDatePreset('yesterday')">Yesterday</button>
+        <button type="button" class="btn-preset-pill" onclick="applyDatePreset('last7')">Last 7 Days</button>
+        <button type="button" class="btn-preset-pill" onclick="applyDatePreset('last30')">Last 30 Days</button>
+        <button type="button" class="btn-preset-pill" onclick="applyDatePreset('thisMonth')">This Month</button>
+        <button type="button" class="btn-preset-pill" onclick="applyDatePreset('all')">All Time</button>
+      </div>
+      <div class="divider-line"></div>
+      <form id="customDateFilterForm">
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" id="inputCustomStartDate" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="date" id="inputCustomEndDate" class="form-input" required />
+          </div>
+        </div>
+        <div class="modal-footer-btns">
+          <button type="button" class="btn btn-secondary" onclick="applyDatePreset('all'); closeModal('dateFilterModal');">Reset</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Apply Custom Range</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- WhatsApp Message Details Modal -->
+  <div class="modal-backdrop hidden" id="messageDetailModal">
+    <div class="modal-dialog" style="max-width: 560px;">
+      <div class="modal-header-row">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="message-square" style="width: 20px; height: 20px; color: var(--brand-accent);"></i>
+          <h3 class="modal-heading">Message & Dispatch Details</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('messageDetailModal')">&times;</button>
+      </div>
+      
+      <div class="message-detail-header-card">
+        <div class="detail-avatar"><i data-lucide="user" style="width: 20px; height: 20px;"></i></div>
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h4 id="detailContactName" style="font-size: 15px; font-weight: 700; color: var(--ink); margin: 0;">-</h4>
+            <span id="detailStatusBadge" class="badge-status-pill badge-delivered">Delivered</span>
+          </div>
+          <div id="detailChatId" style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 3px;">-</div>
+          <div id="detailTimestamp" style="font-size: 11.5px; color: var(--muted-soft); margin-top: 3px;">-</div>
+        </div>
+      </div>
+
+      <div style="margin: 14px 0 10px 0; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12.5px; font-weight: 600; color: var(--ink);">Matched Automation Rule:</span>
+        <span id="detailRuleBadge" class="badge-status-pill badge-blue">Auto Response</span>
+      </div>
+
+      <div class="detail-message-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;">Message Content</span>
+          <button id="btnCopyDetailMessage" class="btn-copy-sm"><i data-lucide="copy" style="width: 12px; height: 12px; margin-right: 4px;"></i> Copy Text</button>
+        </div>
+        <div id="detailMessageContent" class="detail-message-text"></div>
+      </div>
+
+      <div class="modal-footer-btns" style="justify-content: space-between; margin-top: 20px;">
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-secondary btn-sm" id="btnDetailOpenSimulator"><i data-lucide="bot"></i> Test in Simulator</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btnDetailQuickReply"><i data-lucide="reply"></i> Quick Reply</button>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeModal('messageDetailModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Profile & Business Persona Settings Modal -->
+  <div class="modal-backdrop hidden" id="adminProfileModal">
+    <div class="modal-dialog" style="max-width: 640px;">
+      <div class="modal-header-row">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="logo-whatsup.png" alt="Admin" style="width: 42px; height: 42px; object-fit: contain; border-radius: var(--rounded-md); filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));" />
+          <div>
+            <h3 class="modal-heading" style="margin: 0; font-size: 18px;">Admin Profile & Persona Engine</h3>
+            <span style="font-size: 11.5px; color: var(--success); font-weight: 600;">● Active in WhatsApp AI & Automation Rules</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('adminProfileModal')">&times;</button>
+      </div>
+
+      <form id="adminProfileForm">
+        <!-- Section 1: Identity & Business -->
+        <div style="font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px;">
+          <i data-lucide="user" style="width: 14px; height: 14px;"></i> Admin & Business Identity
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Admin / Owner Name</label>
+            <input type="text" id="profAdminName" class="form-input" placeholder="e.g. Alex Morgan" required />
+          </div>
+          <div class="form-group">
+            <label>Business / Brand Name</label>
+            <input type="text" id="profBusinessName" class="form-input" placeholder="e.g. WhatsAuto Solutions" required />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Professional Role / Title</label>
+            <input type="text" id="profRole" class="form-input" placeholder="e.g. Founder & Automation Specialist" />
+          </div>
+          <div class="form-group">
+            <label>Business Niche / Category</label>
+            <input type="text" id="profBusinessNiche" class="form-input" placeholder="e.g. E-commerce, Agency, SaaS, Real Estate" />
+          </div>
+        </div>
+
+        <!-- Section 2: Contact & Working Hours -->
+        <div class="divider-line" style="margin: 14px 0;"></div>
+        <div style="font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px;">
+          <i data-lucide="phone" style="width: 14px; height: 14px;"></i> Contact Details & Operating Hours
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Business Phone / WhatsApp</label>
+            <input type="text" id="profContactPhone" class="form-input" placeholder="+1 (555) 234-5678" />
+          </div>
+          <div class="form-group">
+            <label>Support / Escalation Email</label>
+            <input type="email" id="profSupportEmail" class="form-input" placeholder="admin@whatsauto.local" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Official Website / Link</label>
+            <input type="text" id="profWebsiteUrl" class="form-input" placeholder="https://whatsauto.local" />
+          </div>
+          <div class="form-group">
+            <label>Operating Hours</label>
+            <input type="text" id="profOperatingHours" class="form-input" placeholder="Mon - Sat (9:00 AM - 7:00 PM)" />
+          </div>
+        </div>
+
+        <!-- Section 3: Persona Tone & Conversational Style -->
+        <div class="divider-line" style="margin: 14px 0;"></div>
+        <div style="font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px;">
+          <i data-lucide="sliders" style="width: 14px; height: 14px;"></i> Persona Tone & Messaging Voice
+        </div>
+        <div class="form-group">
+          <label>Bot Persona Tone</label>
+          <select id="profPersonaToneSelect" class="form-input">
+            <option value="Professional, courteous, and highly knowledgeable">Professional, courteous, and highly knowledgeable</option>
+            <option value="Warm, friendly, enthusiastic, and approachable">Warm, friendly, enthusiastic, and approachable</option>
+            <option value="High-converting, sales-driven, and consultative">High-converting, sales-driven, and consultative</option>
+            <option value="Direct, fast, and concise (No fluff)">Direct, fast, and concise (No fluff)</option>
+            <option value="Technical, precise, and solution-oriented">Technical, precise, and solution-oriented</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Custom Closing Signature (Appended to formal AI answers)</label>
+          <input type="text" id="profCustomSignature" class="form-input" placeholder="Best regards, Alex Morgan | WhatsAuto Team" />
+        </div>
+
+        <div class="form-group">
+          <label>About the Business & Core Offerings (Knowledge Injected into AI Brain)</label>
+          <textarea id="profAboutBusiness" class="form-input" rows="3" placeholder="Describe your key services, pricing, booking links, and FAQs for the AI assistant..."></textarea>
+          <span class="form-hint" style="font-size: 11.5px; color: var(--muted); margin-top: 4px; display: flex; align-items: center; gap: 4px;"><i data-lucide="info" style="width: 13px; height: 13px;"></i> The AI Persona Engine uses these profile details to answer user inquiries naturally as your representative.</span>
+        </div>
+
+        <div class="modal-footer-btns">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('adminProfileModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Save & Activate Persona</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

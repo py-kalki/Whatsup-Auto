@@ -1,0 +1,14 @@
+{
+  "adminName": "Kalki Specialist",
+  "businessName": "Kalki Automation Hub",
+  "role": "Head of Automation & Founder",
+  "businessNiche": "WhatsApp Automation, CRM & AI Chatbots",
+  "contactPhone": "+1 (555) 234-5678",
+  "supportEmail": "support@whatsauto.local",
+  "websiteUrl": "https://whatsauto.local",
+  "operatingHours": "Monday – Saturday (9:00 AM – 7:00 PM)",
+  "personaTone": "Professional, friendly, helpful, and high-converting",
+  "customSignature": "Best regards, Kalki | Kalki Hub",
+  "aboutBusiness": "We provide 24/7 smart WhatsApp automation, AI-driven customer support, automated CRM lead capture flows, and broadcast campaigns.",
+  "welcomeMessageTemplate": "Welcome to {{business_name}}! I am the automated assistant for {{admin_name}}. How can I help your business today?"
+}

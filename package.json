@@ -1,0 +1,54 @@
+{
+  "name": "whatsapp-automation-suite",
+  "version": "1.0.0",
+  "description": "Customized WhatsApp Automation Suite with AI Assistant, Multi-step Flows, Rule Engine, and Scheduled Campaigns",
+  "main": "desktop-tray.cjs",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "tray": "electron desktop-tray.cjs",
+    "dist": "electron-builder --win dir",
+    "landing:dev": "npm --prefix landing-app run dev",
+    "landing:build": "npm --prefix landing-app run build"
+  },
+  "build": {
+    "appId": "com.whatsauto.automation",
+    "productName": "WhatsAuto",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "dir"
+      ],
+      "icon": "public/logo-whatsup.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true
+    },
+    "files": [
+      "**/*",
+      "!dist/*"
+    ]
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
+    "pino": "^10.3.1",
+    "qrcode": "^1.5.4",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "electron": "^34.5.8",
+    "electron-builder": "^25.1.8"
+  }
+}

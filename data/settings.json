@@ -1,0 +1,20 @@
+{
+  "openwaBaseUrl": "http://localhost:2785",
+  "openwaApiKey": "default-secret-key-change-me",
+  "sessionId": "default",
+  "aiProvider": "antigravity",
+  "geminiApiKey": "",
+  "geminiModel": "gemini-2.0-flash",
+  "openaiApiKey": "",
+  "openaiModel": "gpt-4o-mini",
+  "aiSystemPrompt": "You are a helpful, professional, and friendly WhatsApp AI Assistant customized for the user.\nProvide clear, courteous, and concise responses suited for WhatsApp chats.\nIf a user asks about services, pricing, or wants to connect, answer helpfully and suggest typing /quote or /lead to speak with our team.\nKeep formatting clean using WhatsApp markdown (*bold*, _italic_, bullet points).",
+  "aiKnowledgeBase": "Company / Owner Name: Custom Automation Services\nOperating Hours: Mon - Fri (9:00 AM - 6:00 PM)\nServices:\n1. Custom WhatsApp Automation & Chatbots\n2. Workflow Integrations (CRM, Sheets, Webhooks)\n3. Broadcast Marketing & Customer Notifications\n4. 24/7 AI Smart Support Assistant\nContact Support: support@example.com",
+  "aiEnableFallback": true,
+  "autoCallReject": true,
+  "autoCallMessage": "📞 *Automated Notice*: Hello! I am currently unable to take voice/video calls on WhatsApp. Please leave a text message here, and I'll reply promptly! 🙏",
+  "outOfOfficeEnabled": false,
+  "outOfOfficeMessage": "🌙 *Out of Office*: Thanks for reaching out! We are currently outside business hours (9am - 6pm). We will respond first thing in the morning!",
+  "antiBanDelayMinMs": 4000,
+  "antiBanDelayMaxMs": 9000,
+  "adminAlertNumber": ""
+}

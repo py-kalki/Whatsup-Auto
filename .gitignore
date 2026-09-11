@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+
+# WhatsApp Session Auth Credentials (DO NOT COMMIT SESSIONS)
+data/auth_info_baileys/
+data/auth_info_baileys/*
+
+# Desktop Builds & Distribution
+dist/
+build/
+*.exe
+
+# Logs & Runtime Dumps
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+data/logs.json
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
