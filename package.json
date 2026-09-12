@@ -15,18 +15,21 @@
   "build": {
     "appId": "com.whatsauto.automation",
     "productName": "WhatsAuto",
+    "asar": false,
     "directories": {
       "output": "dist"
     },
     "win": {
       "target": "dir",
-      "icon": "public/logo-whatsup.png",
+      "icon": "public/icon.ico",
+      "signAndEditExecutable": false,
       "sign": null
     },
+    "forceCodeSigning": false,
     "files": [
       "**/*",
-      "!dist/*",
-      "!landing-app/node_modules/**/*",
+      "!dist/**/*",
+      "!landing-app/**/*",
       "!data/auth_info_baileys/**/*"
     ]
   },
@@ -37,7 +40,8 @@
     "express": "^4.21.2",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.3",
-    "pino": "^10.3.1",
+    "pino": "^9.14.0",
+    "pino-std-serializers": "^7.1.0",
     "qrcode": "^1.5.4",
     "ws": "^8.18.0"
   },
