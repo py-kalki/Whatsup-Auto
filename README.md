@@ -240,6 +240,8 @@ WhatsAuto features a customizable hybrid intelligence engine:
 ### 1. Antigravity Inbuilt AI (100% Local / Zero API Key)
 - **Engine**: Local Antigravity CLI (`agy`).
 - **Features**: Zero API cost, privacy-first, zero cloud dependencies.
+- **Verification**: Run `agy --version` in your terminal to verify installation.
+- **Installation**: If not installed, install globally via `npm install -g @google/antigravity` or install the Antigravity IDE.
 - **Operation**: Inherits your Admin Profile, persona tone, and knowledge base FAQs to craft contextual replies.
 
 ### 2. Google Gemini 2.0 Cloud API

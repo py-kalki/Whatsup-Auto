@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, RefreshCw, Zap } from 'lucide-react';
+import { Send, RefreshCw, Zap } from 'lucide-react';
+import SectionFrame from './SectionFrame';
 
 export default function SimulatorDemo() {
   const [messages, setMessages] = useState([
@@ -52,7 +53,6 @@ export default function SimulatorDemo() {
     setInputVal('');
     setIsTyping(true);
 
-    // Simulate intelligent bot reply
     setTimeout(() => {
       let replyText = '';
       let engine = 'Antigravity AI';
@@ -62,7 +62,7 @@ export default function SimulatorDemo() {
       if (lower.includes('/menu')) {
         engine = 'Rule Engine';
         latency = '12ms';
-        replyText = `*Welcome to WhatsApp Automation Suite!*\n\nAvailable commands:\n- /services - Available packages\n- /pricing - Price & estimates\n- /lead - Consultation form\n- /faq - FAQs\n- /human - Request agent callback`;
+        replyText = `*Welcome to WhatsAuto Suite!*\n\nAvailable commands:\n- /services - Available packages\n- /pricing - Price & estimates\n- /lead - Consultation form\n- /faq - FAQs\n- /human - Request agent callback`;
       } else if (lower.includes('/services')) {
         engine = 'Rule Engine';
         latency = '18ms';
@@ -114,149 +114,144 @@ export default function SimulatorDemo() {
   };
 
   return (
-    <section className="py-20 bg-white dark:bg-zinc-950 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Details */}
-          <div className="lg:col-span-6 flex flex-col gap-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 text-xs font-semibold self-start">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Interactive Live Sandbox</span>
-            </div>
+    <SectionFrame className="py-14 sm:py-20" id="sandbox">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        {/* Left Copy & Interactive Triggers */}
+        <div className="lg:col-span-6 flex flex-col gap-5">
+          <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-gray-500 dark:text-gray-400">
+            <span className="text-[10px]">✦</span> Interactive Sandbox
+          </span>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 dark:text-white tracking-tight">
-              Test the AI Agent and Flow Engine right here
-            </h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 dark:text-white tracking-tight leading-[1.15]">
+            Test the AI Agent and Flow Engine live
+          </h2>
 
-            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 font-normal leading-relaxed">
-              Experience the sub-millisecond keyword matching and intelligent AI responses. In production, this runs entirely on your local machine with zero external cloud dependencies.
-            </p>
+          <p className="text-[15.5px] text-gray-500 dark:text-gray-400 font-normal leading-relaxed">
+            Experience sub-millisecond keyword matching and intelligent AI responses. In production, this runs entirely on your local machine with zero external cloud dependencies.
+          </p>
 
-            {/* Quick Trigger Buttons */}
-            <div className="flex flex-col gap-2.5">
-              <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Try Quick Commands:</span>
-              <div className="flex flex-wrap gap-2">
-                {quickPills.map((p, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleSend(p.cmd)}
-                    className="px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 transition-colors"
-                  >
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Diagnostics Feature Points */}
-            <div className="grid grid-cols-2 gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-              <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
-                <div className="text-xs text-zinc-500 font-medium">Deterministic Match</div>
-                <div className="text-sm font-bold text-zinc-900 dark:text-white">&lt; 20ms Latency</div>
-              </div>
-              <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
-                <div className="text-xs text-zinc-500 font-medium">Local AI Brain</div>
-                <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400">0 API Key Cost</div>
-              </div>
+          {/* Quick Triggers */}
+          <div className="flex flex-col gap-2 pt-2">
+            <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Try Quick Commands:</span>
+            <div className="flex flex-wrap gap-2">
+              {quickPills.map((p, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSend(p.cmd)}
+                  className="px-3.5 py-1.5 rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:bg-gray-100 dark:hover:bg-zinc-800 text-xs font-semibold text-gray-700 dark:text-gray-300 transition-colors shadow-xs cursor-pointer"
+                >
+                  {p.label}
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Right Phone Mockup */}
-          <div className="lg:col-span-6 flex justify-center">
-            <div className="w-full max-w-sm rounded-[32px] border-4 border-zinc-800 dark:border-zinc-700 bg-[#efeae2] dark:bg-zinc-900 shadow-2xl overflow-hidden flex flex-col h-[560px]">
-              {/* WhatsApp Phone Header */}
-              <div className="bg-[#075e54] text-white px-4 py-3 flex items-center justify-between shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-white text-[#075e54] font-bold flex items-center justify-center text-sm shadow-xs">
-                    WA
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold leading-tight">WhatsAuto Bot</div>
-                    <div className="text-[11px] text-emerald-100/90 font-normal">Online • 24/7 Automated</div>
-                  </div>
-                </div>
-                <button
-                  onClick={handleReset}
-                  className="p-1.5 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors"
-                  title="Reset Chat"
-                >
-                  <RefreshCw className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* Chat Message Stream */}
-              <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 text-xs sm:text-sm">
-                {messages.map((m) => {
-                  const isUser = m.sender === 'user';
-                  return (
-                    <div
-                      key={m.id}
-                      className={`flex flex-col max-w-[85%] ${
-                        isUser ? 'self-end items-end' : 'self-start items-start'
-                      }`}
-                    >
-                      <div
-                        className={`p-3 rounded-xl shadow-xs whitespace-pre-line leading-relaxed ${
-                          isUser
-                            ? 'bg-[#d9fdd3] dark:bg-emerald-950/80 text-zinc-900 dark:text-emerald-100 rounded-tr-xs'
-                            : 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-tl-xs'
-                        }`}
-                      >
-                        {m.text}
-                        <div className="text-[10px] text-zinc-500 text-right mt-1.5 select-none">
-                          {m.time}
-                        </div>
-                      </div>
-
-                      {/* Bot Engine Diagnostic Pill */}
-                      {!isUser && m.engine && (
-                        <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 font-mono mt-1 px-1">
-                          <Zap className="w-3 h-3 text-amber-500" />
-                          <span>{m.engine} ({m.latency})</span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-
-                {/* Typing Indicator */}
-                {isTyping && (
-                  <div className="self-start p-3 rounded-xl bg-white dark:bg-zinc-800 shadow-xs flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-bounce [animation-delay:0.4s]"></span>
-                  </div>
-                )}
-                <div ref={chatEndRef} />
-              </div>
-
-              {/* Chat Input Bar */}
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSend();
-                }}
-                className="p-3 bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-2"
-              >
-                <input
-                  type="text"
-                  value={inputVal}
-                  onChange={(e) => setInputVal(e.target.value)}
-                  placeholder="Type a command or question..."
-                  className="flex-1 px-3.5 py-2 text-xs sm:text-sm rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-hidden focus:ring-1 focus:ring-zinc-400"
-                />
-                <button
-                  type="submit"
-                  disabled={!inputVal.trim()}
-                  className="p-2.5 rounded-full bg-[#075e54] hover:bg-[#064e46] text-white disabled:opacity-40 transition-all shadow-xs"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                </button>
-              </form>
+          {/* Diagnostics Feature Points */}
+          <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-zinc-800">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-xs">
+              <div className="text-[11px] text-gray-400 font-medium">Deterministic Match</div>
+              <div className="text-sm font-bold text-gray-900 dark:text-white">&lt; 20ms Latency</div>
+            </div>
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 shadow-xs">
+              <div className="text-[11px] text-gray-400 font-medium">Local AI Brain</div>
+              <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400">0 API Key Cost</div>
             </div>
           </div>
         </div>
+
+        {/* Right Phone Mockup */}
+        <div className="lg:col-span-6 flex justify-center">
+          <div className="w-full max-w-[360px] rounded-[32px] border-4 border-gray-900 dark:border-zinc-700 bg-[#EFEAE2] dark:bg-zinc-950 shadow-[0_8px_30px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col h-[540px]">
+            {/* Phone Top Bar */}
+            <div className="bg-[#075E54] text-white px-4 py-3 flex items-center justify-between shadow-xs">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-white text-[#075E54] font-bold flex items-center justify-center text-xs shadow-xs">
+                  WA
+                </div>
+                <div>
+                  <div className="text-[13px] font-bold leading-tight">WhatsAuto Agent</div>
+                  <div className="text-[10px] text-emerald-100/90">Online • 24/7 Automated</div>
+                </div>
+              </div>
+              <button
+                onClick={handleReset}
+                className="p-1.5 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-colors cursor-pointer"
+                title="Reset Chat"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            {/* Chat Stream */}
+            <div className="flex-1 p-3.5 overflow-y-auto flex flex-col gap-2.5 text-xs">
+              {messages.map((m) => {
+                const isUser = m.sender === 'user';
+                return (
+                  <div
+                    key={m.id}
+                    className={`flex flex-col max-w-[85%] ${
+                      isUser ? 'self-end items-end' : 'self-start items-start'
+                    }`}
+                  >
+                    <div
+                      className={`p-3 rounded-2xl shadow-xs whitespace-pre-line leading-relaxed ${
+                        isUser
+                          ? 'bg-[#D9FDD3] dark:bg-emerald-950/80 text-gray-900 dark:text-emerald-100 rounded-tr-xs'
+                          : 'bg-white dark:bg-zinc-800 text-gray-900 dark:text-zinc-100 rounded-tl-xs'
+                      }`}
+                    >
+                      {m.text}
+                      <div className="text-[9px] text-gray-400 text-right mt-1 select-none">
+                        {m.time}
+                      </div>
+                    </div>
+
+                    {!isUser && m.engine && (
+                      <div className="flex items-center gap-1 text-[9px] text-gray-400 font-mono mt-1 px-1">
+                        <Zap className="w-2.5 h-2.5 text-amber-500" />
+                        <span>{m.engine} ({m.latency})</span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {isTyping && (
+                <div className="self-start p-2.5 rounded-2xl bg-white dark:bg-zinc-800 shadow-xs flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-chat-dot-1"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-chat-dot-2"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-chat-dot-3"></span>
+                </div>
+              )}
+              <div ref={chatEndRef} />
+            </div>
+
+            {/* Input Bar */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
+              className="p-2.5 bg-white dark:bg-zinc-900 border-t border-gray-200 dark:border-zinc-800 flex items-center gap-2"
+            >
+              <input
+                type="text"
+                value={inputVal}
+                onChange={(e) => setInputVal(e.target.value)}
+                placeholder="Type a command (/lead, /services)..."
+                className="flex-1 px-3 py-2 text-xs rounded-full bg-gray-100 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-hidden"
+              />
+              <button
+                type="submit"
+                disabled={!inputVal.trim()}
+                className="p-2 rounded-full bg-[#075E54] hover:bg-[#064E46] text-white disabled:opacity-40 transition-all shadow-xs cursor-pointer"
+              >
+                <Send className="w-3.5 h-3.5" />
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-    </section>
+    </SectionFrame>
   );
 }

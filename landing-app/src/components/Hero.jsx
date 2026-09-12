@@ -1,175 +1,86 @@
-import React, { useState } from 'react';
-import { ArrowRight, Download, BookOpen, Copy, Check, Terminal, Shield, Zap, Monitor, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
-import { GithubIcon } from './icons';
+import React from 'react';
+import { Star, Download, ArrowRight } from 'lucide-react';
+import HeroMockup from './HeroMockup';
+import SectionFrame from './SectionFrame';
 
 export default function Hero({ onNavigate }) {
-  const [copied, setCopied] = useState(false);
-  const [showCli, setShowCli] = useState(false);
-  const repoReleaseUrl = "https://github.com/py-kalki/whatsapp-automation/releases";
-  const installCmd = "git clone https://github.com/py-kalki/whatsapp-automation.git && npm install && npm start";
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(installCmd);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const repoReleaseUrl = "https://github.com/py-kalki/Whatsup-Auto/releases/tag/v.0.1.1";
 
   return (
-    <section className="relative pt-14 pb-12 sm:pt-20 sm:pb-16 text-center overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Release Pill Badge linking to GitHub Releases */}
-        <a 
-          href={repoReleaseUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-50/80 dark:bg-emerald-950/40 shadow-xs hover:border-emerald-500/50 cursor-pointer transition-all mb-8 backdrop-blur-md group"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300">WhatsAuto v2.0 Released</span>
-          <span className="text-emerald-400 dark:text-emerald-600">•</span>
-          <span className="text-xs text-emerald-700 dark:text-emerald-300/90 group-hover:text-emerald-900 dark:group-hover:text-white transition-colors">
-            Download Windows .exe (64-bit)
-          </span>
-          <ArrowRight className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition-transform" />
-        </a>
-
-        {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-zinc-950 dark:text-white max-w-4xl mx-auto leading-[1.12]">
-          Automate WhatsApp on your PC.{' '}
-          <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-sky-500 bg-clip-text text-transparent">
-            100% Free & Self-Hosted.
-          </span>
-        </h1>
-
-        {/* Hero Subtitle */}
-        <p className="mt-6 text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed font-normal">
-          Download the standalone Windows <span className="font-semibold text-zinc-900 dark:text-zinc-200">.exe</span>, pair your WhatsApp in seconds, and let your AI agent handle 24/7 customer replies, CRM lead capture, and safe broadcasts silently in your system tray.
-        </p>
-
-        {/* Primary CTA Group: Download Windows .exe from GitHub Releases */}
-        <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-          <a
-            href={repoReleaseUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-sm sm:text-base text-white bg-emerald-600 hover:bg-emerald-500 shadow-lg shadow-emerald-600/25 hover:shadow-emerald-600/35 transition-all hover:scale-[1.02] active:scale-[0.98] group"
-          >
-            <Download className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
-            <div className="text-left">
-              <div className="text-xs font-medium text-emerald-100 uppercase tracking-wider leading-none">Download for Windows</div>
-              <div className="text-sm sm:text-base font-extrabold leading-tight">Get WhatsAuto .exe (GitHub)</div>
-            </div>
-            <span className="text-xs bg-emerald-700/60 px-2 py-0.5 rounded-md font-mono text-emerald-100 ml-1">v2.0</span>
-          </a>
-
-          <button
-            onClick={() => onNavigate('help')}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-semibold text-sm text-zinc-800 dark:text-zinc-200 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/80 shadow-sm transition-all"
-          >
-            <BookOpen className="w-4 h-4 text-sky-500" />
-            <span>Setup & User Manual</span>
-          </button>
-
-          <a
-            href="https://github.com/py-kalki/whatsapp-automation"
-            target="_blank"
-            rel="noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-4 rounded-2xl font-semibold text-sm text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800 hover:bg-zinc-200/80 dark:hover:bg-zinc-800 transition-all"
-          >
-            <GithubIcon className="w-4 h-4" />
-            <span>Source Code</span>
-            <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
-          </a>
-        </div>
-
-        {/* 3-Step Simple User Journey */}
-        <div className="mt-12 p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 max-w-3xl mx-auto text-left shadow-xs">
-          <div className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3 flex items-center justify-between">
-            <span>How It Works in 3 Quick Steps:</span>
-            <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">Zero Coding Required</span>
+    <SectionFrame className="pt-24 sm:pt-28 pb-10" containerClassName="flex flex-col">
+      {/* Outer Card with subtle border and elevation */}
+      <div className="flex-1 flex flex-col rounded-3xl border border-gray-200 dark:border-zinc-800 shadow-[0_2px_24px_rgba(0,0,0,0.06)] overflow-hidden bg-white dark:bg-zinc-900/90">
+        
+        {/* Top Header Strip */}
+        <div className="flex items-center justify-between px-6 sm:px-8 py-3.5 border-b border-gray-100 dark:border-zinc-800 flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-[12px] font-semibold text-gray-700 dark:text-gray-300">
+              WhatsAuto Desktop v2.0
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800 flex items-start gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-emerald-500 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
-              <div>
-                <div className="text-xs font-bold text-zinc-900 dark:text-white">Download & Launch</div>
-                <div className="text-[11px] text-zinc-500 leading-snug mt-0.5">Get the <code className="text-zinc-800 dark:text-zinc-200 font-semibold">.exe</code> from GitHub Releases and open it.</div>
-              </div>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800 flex items-start gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-sky-500 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
-              <div>
-                <div className="text-xs font-bold text-zinc-900 dark:text-white">Scan WhatsApp QR</div>
-                <div className="text-[11px] text-zinc-500 leading-snug mt-0.5">Link once from your phone; auto-reconnects forever!</div>
-              </div>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800 flex items-start gap-2.5">
-              <span className="w-6 h-6 rounded-full bg-purple-500 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
-              <div>
-                <div className="text-xs font-bold text-zinc-900 dark:text-white">Runs in Tray 24/7</div>
-                <div className="text-[11px] text-zinc-500 leading-snug mt-0.5">Minimizes to taskbar & boots on startup automatically.</div>
-              </div>
-            </div>
+          <div className="flex items-center gap-3 sm:gap-4 text-[12px] text-gray-400 dark:text-gray-500 font-medium">
+            <span><strong className="text-gray-800 dark:text-gray-200 font-semibold">1,200+</strong> businesses</span>
+            <span className="w-px h-3 bg-gray-200 dark:bg-zinc-700 inline-block"></span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">100% Free Forever</span>
           </div>
         </div>
 
-        {/* Collapsible Developer CLI Section */}
-        <div className="mt-6 max-w-2xl mx-auto">
-          <button
-            onClick={() => setShowCli(!showCli)}
-            className="inline-flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 font-medium transition-colors"
-          >
-            <Terminal className="w-3.5 h-3.5" />
-            <span>Developer? Run from Source Code (Node.js CLI)</span>
-            {showCli ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-          </button>
+        {/* 2-Column Split: Left Copy & CTA, Right Dashboard Mockup */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[50%_50%]">
+          {/* Left Column */}
+          <div className="flex flex-col justify-center px-6 sm:px-10 py-10 sm:py-14 lg:border-r border-gray-100 dark:border-zinc-800">
+            <h1 className="font-extrabold text-gray-950 dark:text-white leading-[1.08] text-3xl sm:text-5xl lg:text-[52px] tracking-tight">
+              The 24/7 WhatsApp AI engine for<br className="hidden sm:inline" /> businesses & creators.
+            </h1>
 
-          {showCli && (
-            <div className="mt-3 p-3.5 rounded-xl bg-zinc-950 dark:bg-zinc-900/90 border border-zinc-800 text-left shadow-lg flex items-center justify-between gap-3 overflow-hidden animate-in fade-in duration-200">
-              <div className="flex items-center gap-2 overflow-x-auto font-mono text-xs text-zinc-300">
-                <span className="text-zinc-500 select-none">$</span>
-                <span>git clone https://github.com/py-kalki/whatsapp-automation.git && npm start</span>
-              </div>
-              <button
-                onClick={handleCopy}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium border border-zinc-700 transition-colors shrink-0"
-                title="Copy command"
+            <p className="mt-5 text-[15.5px] leading-relaxed text-gray-500 dark:text-gray-400 max-w-[440px] font-normal">
+              Everything after someone messages you — instant AI auto-replies, multi-step lead capture, CRM qualification, and safe broadcasts — running quietly on your PC.
+            </p>
+
+            {/* Primary Action Buttons */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 w-full max-w-[440px]">
+              {/* Google / Windows 1-Click Download */}
+              <a
+                href={repoReleaseUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-2.5 bg-[#212121] hover:bg-black dark:bg-white dark:text-black dark:hover:bg-gray-200 text-white w-full py-3 rounded-2xl text-[14px] font-medium transition-all duration-150 shadow-[0_1px_2px_rgba(0,0,0,0.1)] hover:scale-[1.01] active:scale-[0.99] group"
               >
-                {copied ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400 font-semibold">Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5 text-zinc-400" />
-                    <span>Copy</span>
-                  </>
-                )}
+                <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+                <span>Download Windows .exe (v2.0)</span>
+              </a>
+
+              {/* Documentation / Quickstart Button */}
+              <button
+                onClick={() => onNavigate('help')}
+                className="flex items-center justify-center gap-1.5 bg-[#F7F7F7] hover:bg-[#F0F0F0] dark:bg-zinc-800 dark:hover:bg-zinc-700 text-[#555555] dark:text-zinc-200 w-full sm:w-auto px-5 py-3 rounded-2xl text-[14px] font-medium border border-gray-200/80 dark:border-zinc-700 transition-all duration-150 shrink-0 cursor-pointer"
+              >
+                <span>Docs</span>
+                <ArrowRight className="w-4 h-4 text-gray-400 dark:text-zinc-400" />
               </button>
             </div>
-          )}
-        </div>
 
-        {/* Feature Badges Row */}
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-500 dark:text-zinc-400">
-          <div className="flex items-center gap-1.5 font-medium">
-            <Shield className="w-4 h-4 text-emerald-500" />
-            <span>100% Privacy • Messages Stay on Disk</span>
+            {/* Star Rating Social Proof */}
+            <div className="mt-8 pt-6 border-t border-gray-100 dark:border-zinc-800 flex items-center gap-3">
+              <div className="flex items-center gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-gray-900 text-gray-900 dark:fill-white dark:text-white" />
+                ))}
+              </div>
+              <p className="text-[13px] text-gray-400 dark:text-gray-500">
+                <strong className="text-gray-800 dark:text-gray-200 font-semibold">4.9 / 5</strong> — loved by 1,200+ businesses & developers
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5 font-medium">
-            <Zap className="w-4 h-4 text-amber-500" />
-            <span>Zero-Cost Inbuilt Antigravity AI</span>
-          </div>
-          <div className="flex items-center gap-1.5 font-medium">
-            <Monitor className="w-4 h-4 text-purple-500" />
-            <span>Silent Windows Tray Daemon</span>
+
+          {/* Right Column (Hero Mockup) */}
+          <div className="p-4 sm:p-6 bg-gray-50/50 dark:bg-zinc-950/50 flex flex-col justify-center">
+            <HeroMockup />
           </div>
         </div>
       </div>
-    </section>
+    </SectionFrame>
   );
 }

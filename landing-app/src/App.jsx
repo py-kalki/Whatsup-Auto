@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import HeroMockup from './components/HeroMockup';
+import BrandMarquee from './components/BrandMarquee';
+import HowItWorks from './components/HowItWorks';
 import Features from './components/Features';
 import SimulatorDemo from './components/SimulatorDemo';
 import Comparison from './components/Comparison';
+import WallOfLove from './components/WallOfLove';
 import FAQ from './components/FAQ';
 import AboutView from './components/AboutView';
 import HelpView from './components/HelpView';
@@ -27,10 +29,12 @@ function HomeView({ onNavigate }) {
   return (
     <>
       <Hero onNavigate={onNavigate} />
-      <HeroMockup />
+      <BrandMarquee />
+      <HowItWorks />
       <Features />
       <SimulatorDemo />
       <Comparison />
+      <WallOfLove />
       <FAQ />
     </>
   );
@@ -38,10 +42,11 @@ function HomeView({ onNavigate }) {
 
 function FeaturesPage() {
   return (
-    <div className="pt-6 pb-12">
+    <div className="pt-16 pb-12">
       <Features />
       <SimulatorDemo />
       <Comparison />
+      <FAQ />
     </div>
   );
 }
@@ -56,10 +61,7 @@ function MainLayout({ darkMode, setDarkMode }) {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col selection:bg-emerald-600 selection:text-white transition-colors duration-200">
-      {/* Background Grid Accent */}
-      <div className="fixed inset-0 bg-grid pointer-events-none opacity-80 -z-10" />
-
+    <div className="min-h-screen bg-[#F4F4F4] dark:bg-zinc-950 text-gray-900 dark:text-zinc-100 flex flex-col selection:bg-gray-900 selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-200 onboard-grid">
       {/* Navigation Bar */}
       <Navbar
         currentPath={location.pathname}
@@ -89,7 +91,8 @@ function MainLayout({ darkMode, setDarkMode }) {
 }
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(true);
+  // Default to light mode to match Onboard.lat's signature crisp #F4F4F4 aesthetic, with dark mode toggleable
+  const [darkMode, setDarkMode] = useState(false);
 
   // Sync dark mode with document root
   useEffect(() => {

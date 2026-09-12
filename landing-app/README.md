@@ -71,5 +71,5 @@ The hero mockup frame will automatically load and showcase your screenshot. If n
 
 - **Creator**: Vedansh Danot
 - **Email**: `pykalki@gmail.com`
-- **GitHub**: [https://github.com/py-kalki/whatsapp-automation](https://github.com/py-kalki/whatsapp-automation)
+- **GitHub**: [https://github.com/py-kalki/Whatsup-Auto](https://github.com/py-kalki/Whatsup-Auto)
 - **License**: MIT
