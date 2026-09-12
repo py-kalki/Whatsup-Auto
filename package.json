@@ -9,6 +9,7 @@
     "dev": "node --watch server.js",
     "tray": "electron desktop-tray.cjs",
     "dist": "electron-builder --win dir",
+    "package": "scripts\\package-zip.bat",
     "landing:dev": "npm --prefix landing-app run dev",
     "landing:build": "npm --prefix landing-app run build"
   },
