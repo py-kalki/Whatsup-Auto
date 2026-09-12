@@ -21,10 +21,20 @@ export default function SimulatorDemo() {
   ]);
   const [inputVal, setInputVal] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const chatEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [messages, isTyping]);
 
   const quickPills = [
@@ -183,7 +193,10 @@ export default function SimulatorDemo() {
             </div>
 
             {/* Chat Stream */}
-            <div className="flex-1 p-3.5 overflow-y-auto flex flex-col gap-2.5 text-xs">
+            <div
+              ref={chatContainerRef}
+              className="flex-1 p-3.5 overflow-y-auto flex flex-col gap-2.5 text-xs scroll-smooth"
+            >
               {messages.map((m) => {
                 const isUser = m.sender === 'user';
                 return (
@@ -223,7 +236,6 @@ export default function SimulatorDemo() {
                   <span className="w-1.5 h-1.5 rounded-full bg-gray-400 animate-chat-dot-3"></span>
                 </div>
               )}
-              <div ref={chatEndRef} />
             </div>
 
             {/* Input Bar */}
