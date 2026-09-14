@@ -6,21 +6,21 @@
     "steps": [
       {
         "id": "step_name",
-        "prompt": "*Step 1 of 3*: Welcome! Let's get you set up. What is your *Full Name*?",
+        "prompt": "*Step 1 of 3*: Welcome to *{{business_name}}*! Let's get you set up. What is your *Full Name*?",
         "field": "name"
       },
       {
         "id": "step_service",
-        "prompt": "*Step 2 of 3*: Nice to meet you, *{{name}}*! Which service or automation are you interested in?\n\n1. WhatsApp AI Chatbot\n2. Broadcast Marketing & Campaigns\n3. Custom Integration\n4. Other / General Inquiry",
+        "prompt": "*Step 2 of 3*: Nice to meet you, *{{name}}*! What specific service, product, or inquiry can we help you with today?",
         "field": "service_interest"
       },
       {
         "id": "step_contact",
-        "prompt": "*Step 3 of 3*: Great choice! Please provide your *Email Address* or *Best Time for a Quick Call*.",
+        "prompt": "*Step 3 of 3*: Great! Please provide your *Email Address* or *Phone Number* (and preferred contact time) so {{admin_name}} can follow up with you.",
         "field": "contact_info"
       }
     ],
-    "completionMessage": "*Thank You, {{name}}!*\n\nWe have recorded your details:\n- *Service*: {{service_interest}}\n- *Contact*: {{contact_info}}\n\nOur team will review your inquiry and reach out shortly! Have a great day!",
+    "completionMessage": "*Thank You, {{name}}!*\n\nWe have recorded your details for *{{business_name}}*:\n- *Inquiry*: {{service_interest}}\n- *Contact Info*: {{contact_info}}\n\n{{admin_name}} and our team will review your inquiry and reach out shortly!\n\n{{signature}}",
     "alertAdmin": true
   }
 ]

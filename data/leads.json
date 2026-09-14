@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "lead-1789346676187",
+    "createdAt": "2026-09-14T00:44:36.187Z",
+    "flowId": "flow-lead-capture",
+    "flowName": "Lead Qualification & Consultation Flow",
+    "chatId": "patient1@c.us",
+    "data": {
+      "name": "Alice",
+      "service_interest": "Teeth Whitening",
+      "contact_info": "alice@example.com / afternoons"
+    }
+  }
+]

@@ -156,8 +156,14 @@
             <input type="text" class="search-input-pill" id="globalSearchInput" placeholder="Search messages, rules..." />
           </div>
 
+          <!-- Documentation & Help Link -->
+          <a href="https://whatsauto.vedanshh.dev/help" target="_blank" rel="noreferrer" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none; padding: 7px 12px; font-size: 12.5px; font-weight: 600;" title="Open Official Help & Docs">
+            <i data-lucide="help-circle" style="width: 15px; height: 15px; color: var(--brand-accent);"></i>
+            <span>Help & Docs</span>
+          </a>
+
           <!-- User Profile Avatar with Logo -->
-          <div class="header-avatar" id="btnUserProfile" title="WhatsApp Automation Admin">
+          <div class="header-avatar" id="btnUserProfile" title="Click to edit Admin Profile & Persona Engine">
             <img src="logo-whatsup.png" alt="WhatsAuto Admin" />
           </div>
         </div>
@@ -532,6 +538,9 @@
                   <h3 class="card-title">AI Assistant Configuration</h3>
                   <p class="form-hint">Configure Antigravity Inbuilt AI (No API Key), Google Gemini, or OpenAI</p>
                 </div>
+                <button type="button" id="btnSyncAiProfile" class="btn btn-secondary btn-sm" title="Populate System Prompt & Knowledge Base from your Business Profile">
+                  <i data-lucide="refresh-cw"></i> Sync from Profile
+                </button>
               </div>
               <form id="aiConfigForm">
                 <div class="form-group">
@@ -595,30 +604,75 @@
 
                 <div class="form-group">
                   <label>AI Persona & System Prompt</label>
-                  <textarea id="aiSystemPromptInput" class="form-input code-font" rows="4"></textarea>
+                  <textarea id="aiSystemPromptInput" class="form-input code-font" rows="4" placeholder="Instructions that direct the AI tone and guidelines..."></textarea>
                 </div>
 
                 <div class="form-group">
                   <label>Knowledge Base & Business FAQs</label>
-                  <textarea id="aiKnowledgeBaseInput" class="form-input code-font" rows="5" placeholder="Provide pricing, service details, operating hours..."></textarea>
+                  <textarea id="aiKnowledgeBaseInput" class="form-input code-font" rows="5" placeholder="Provide pricing, service details, operating hours, and FAQs (or click 'Sync from Profile')..."></textarea>
+                  <span class="form-hint" style="font-size: 11.5px; color: var(--muted); margin-top: 4px; display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="info" style="width: 13px; height: 13px;"></i> When left blank, context is automatically built from your active Admin Profile.
+                  </span>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-2"><i data-lucide="save"></i> Save AI Settings</button>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Save AI Settings</button>
+                  <button type="button" class="btn btn-secondary" onclick="openModal('adminProfileModal')"><i data-lucide="user-check"></i> Edit Business Profile</button>
+                </div>
               </form>
             </div>
 
-            <div class="card-container">
-              <div class="card-header-row">
-                <div>
-                  <h3 class="card-title">Hybrid Engine Guide</h3>
-                  <p class="form-hint">How deterministic rules and AI collaborate</p>
+            <div style="display: flex; flex-col; gap: 20px; flex-direction: column;">
+              <!-- Active AI Persona & Live Identity Preview -->
+              <div class="card-container" style="border-left: 3px solid var(--brand-accent);">
+                <div class="card-header-row">
+                  <div>
+                    <h3 class="card-title" style="display: flex; align-items: center; gap: 6px;">
+                      <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--brand-accent);"></i> Active AI Persona Status
+                    </h3>
+                    <p class="form-hint">Live identity injected into every customer WhatsApp conversation</p>
+                  </div>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('adminProfileModal')" title="Edit Profile">
+                    <i data-lucide="edit-3"></i> Edit
+                  </button>
+                </div>
+                
+                <div id="aiPersonaLivePreview" style="font-size: 13px; display: flex; flex-direction: column; gap: 10px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 12px; background: var(--surface-soft); border-radius: var(--rounded-md);">
+                    <div>
+                      <div style="font-weight: 700; color: var(--ink); font-size: 14px;" id="prevBusinessName">Loading...</div>
+                      <div style="font-size: 12px; color: var(--muted);" id="prevAdminRole">Owner: Loading...</div>
+                    </div>
+                    <span class="badge-status-pill badge-blue" id="prevTonePill">Professional</span>
+                  </div>
+
+                  <div style="font-size: 12.5px; color: var(--body); line-height: 1.5; padding: 8px 12px; background: var(--canvas); border-radius: var(--rounded-md);">
+                    <strong style="color: var(--ink); display: block; margin-bottom: 2px;">About & Offerings:</strong>
+                    <span id="prevAbout">Loading...</span>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11.5px; color: var(--muted);">
+                    <div><strong>Hours:</strong> <span id="prevHours">-</span></div>
+                    <div><strong>Phone:</strong> <span id="prevPhone">-</span></div>
+                    <div style="grid-column: span 2;"><strong>Closing Signature:</strong> <span id="prevSignature" style="font-style: italic; color: var(--body);">-</span></div>
+                  </div>
                 </div>
               </div>
-              <div style="font-size: 13px; line-height: 1.6; color: var(--body);">
-                <p style="margin-bottom: 12px;"><strong>1. Strict Priority:</strong> When a user sends a message, exact keyword rules (e.g. <code>/menu</code>, <code>/pricing</code>) evaluate first.</p>
-                <p style="margin-bottom: 12px;"><strong>2. Antigravity Inbuilt AI:</strong> If no keyword matches, the built-in Antigravity AI Engine answers naturally using your Admin Profile, persona tone, and knowledge base—with zero external API costs.</p>
-                <p style="margin-bottom: 12px;"><strong>3. Multi-turn Memory:</strong> The engine retains recent conversation history for seamless multi-turn customer dialogues.</p>
-                <p><strong>4. WhatsApp Safe Formatting:</strong> Outputs are automatically styled with WhatsApp markdown (*bold*, `code`, bullet points) and crisp length.</p>
+
+              <!-- Hybrid Engine Guide Card -->
+              <div class="card-container">
+                <div class="card-header-row">
+                  <div>
+                    <h3 class="card-title">Hybrid Engine Workflow</h3>
+                    <p class="form-hint">How deterministic rules and AI collaborate</p>
+                  </div>
+                </div>
+                <div style="font-size: 13px; line-height: 1.6; color: var(--body);">
+                  <p style="margin-bottom: 10px;"><strong>1. Deterministic Commands:</strong> Explicit commands like <code>/quote</code>, <code>/lead</code>, or <code>/help</code> execute direct flows.</p>
+                  <p style="margin-bottom: 10px;"><strong>2. Contextual AI Brain:</strong> Natural customer messages, questions, and greetings are dynamically processed using your exact business profile, persona tone, and offerings.</p>
+                  <p style="margin-bottom: 10px;"><strong>3. Multi-turn Memory:</strong> Retains context across recent messages for natural multi-turn conversations.</p>
+                  <p><strong>4. Zero-Cost Antigravity AI:</strong> Built-in system CLI produces responses without external cloud API consumption or Ollama daemons.</p>
+                </div>
               </div>
             </div>
           </div>

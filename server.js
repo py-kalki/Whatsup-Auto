@@ -499,7 +499,58 @@ app.get('/api/profile', (req, res) => {
 
 app.put('/api/profile', (req, res) => {
   const updated = storage.saveProfile(req.body);
-  res.json({ success: true, profile: updated });
+
+  // Auto-clean/sync AI settings if they still have legacy default text
+  const settings = storage.getSettings();
+  let needSettingsSave = false;
+  const updatedSettings = { ...settings };
+
+  if (
+    !settings.aiKnowledgeBase ||
+    (settings.aiKnowledgeBase.includes('Custom Automation Services') && updated.businessName !== 'Custom Automation Services')
+  ) {
+    const kbLines = [
+      `Business Name: ${updated.businessName || 'Our Business'}`,
+      `Owner / Admin: ${updated.adminName || 'Admin'} (${updated.role || 'Representative'})`,
+      `Industry / Niche: ${updated.businessNiche || 'Professional Services'}`,
+      `Operating Hours: ${updated.operatingHours || 'Standard Business Hours'}`,
+    ];
+    if (updated.aboutBusiness) kbLines.push(`About & Offerings: ${updated.aboutBusiness}`);
+    if (updated.contactPhone) kbLines.push(`Phone / WhatsApp: ${updated.contactPhone}`);
+    if (updated.supportEmail) kbLines.push(`Support Email: ${updated.supportEmail}`);
+    if (updated.websiteUrl) kbLines.push(`Official Website: ${updated.websiteUrl}`);
+    updatedSettings.aiKnowledgeBase = kbLines.join('\n');
+    needSettingsSave = true;
+  }
+
+  if (needSettingsSave) {
+    storage.saveSettings(updatedSettings);
+  }
+
+  res.json({ success: true, profile: updated, settingsSynced: needSettingsSave });
+});
+
+// Explicit endpoint to sync AI settings with Profile on demand
+app.post('/api/profile/sync-ai', (req, res) => {
+  const profile = storage.getProfile();
+
+  const kbLines = [
+    `Business Name: ${profile.businessName || 'Our Business'}`,
+    `Owner / Admin: ${profile.adminName || 'Admin'} (${profile.role || 'Representative'})`,
+    `Industry / Niche: ${profile.businessNiche || 'Professional Services'}`,
+    `Operating Hours: ${profile.operatingHours || 'Standard Business Hours'}`,
+  ];
+  if (profile.aboutBusiness) kbLines.push(`About & Offerings: ${profile.aboutBusiness}`);
+  if (profile.contactPhone) kbLines.push(`Phone / WhatsApp: ${profile.contactPhone}`);
+  if (profile.supportEmail) kbLines.push(`Support Email: ${profile.supportEmail}`);
+  if (profile.websiteUrl) kbLines.push(`Official Website: ${profile.websiteUrl}`);
+
+  const updatedSettings = storage.saveSettings({
+    aiSystemPrompt: `You are the official WhatsApp AI Business Assistant representing "${profile.businessName || 'Our Business'}".\nAdmin & Owner: ${profile.adminName || 'Admin'} (${profile.role || 'Owner'}).\nTone of voice: ${profile.personaTone || 'Professional and helpful'}.\nProvide clear, courteous, and concise responses suited for WhatsApp chats.\nIf a user wants a quote or to leave details, guide them to type /quote or /lead.\nWhen concluding formal answers, sign off with: "${profile.customSignature || `Best regards, ${profile.adminName}`}".`,
+    aiKnowledgeBase: kbLines.join('\n'),
+  });
+
+  res.json({ success: true, settings: updatedSettings });
 });
 
 // Settings

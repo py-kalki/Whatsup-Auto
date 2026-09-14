@@ -51,6 +51,11 @@ function setupTabs() {
 
       updateHeaderTitles(tabId);
 
+      if (tabId === 'tab-ai') {
+        loadProfile();
+        loadSettings();
+      }
+
       // If user switches tab, re-apply search filter for that tab
       if (currentSearchQuery) {
         filterCurrentTabContent(currentSearchQuery);
@@ -787,9 +792,31 @@ async function loadProfile() {
     if (userProfileBtn && p.adminName) {
       userProfileBtn.setAttribute('title', `${p.adminName} (${p.role || 'Admin'}) - Click to edit profile & persona`);
     }
+
+    // Update Live AI Persona Preview card in AI Brain Tab
+    updatePersonaPreview(p);
   } catch (err) {
     console.error('Failed to load profile:', err);
   }
+}
+
+function updatePersonaPreview(p) {
+  if (!p) return;
+  const bName = document.getElementById('prevBusinessName');
+  const aRole = document.getElementById('prevAdminRole');
+  const tonePill = document.getElementById('prevTonePill');
+  const about = document.getElementById('prevAbout');
+  const hours = document.getElementById('prevHours');
+  const phone = document.getElementById('prevPhone');
+  const sig = document.getElementById('prevSignature');
+
+  if (bName) bName.textContent = p.businessName || 'Business Name Not Set';
+  if (aRole) aRole.textContent = `Owner / Admin: ${p.adminName || 'Admin'} (${p.role || 'Representative'}) • ${p.businessNiche || 'Services'}`;
+  if (tonePill) tonePill.textContent = p.personaTone ? p.personaTone.split(',')[0] : 'Professional';
+  if (about) about.textContent = p.aboutBusiness || `${p.businessName || 'This business'} provides specialized customer offerings.`;
+  if (hours) hours.textContent = p.operatingHours || 'Standard Hours';
+  if (phone) phone.textContent = p.contactPhone || p.supportEmail || 'Available on request';
+  if (sig) sig.textContent = `"${p.customSignature || `Best regards, ${p.adminName || 'Team'}`}"`;
 }
 
 async function loadStatus() {
@@ -1516,8 +1543,27 @@ function setupEventListeners() {
         body: JSON.stringify(body),
       });
 
-      alert('AI Settings saved successfully!');
+      alert('AI Brain settings saved and activated!');
+      loadProfile();
       loadStatus();
+    });
+  }
+
+  // Sync AI from Profile button
+  const btnSyncAiProfile = document.getElementById('btnSyncAiProfile');
+  if (btnSyncAiProfile) {
+    btnSyncAiProfile.addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/profile/sync-ai', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          await loadSettings();
+          await loadProfile();
+          alert('AI Brain prompt and knowledge base successfully synchronized with your Business Profile!');
+        }
+      } catch (err) {
+        console.error('Failed to sync AI with profile:', err);
+      }
     });
   }
 
@@ -1590,8 +1636,9 @@ function setupEventListeners() {
 
       alert('Admin Profile and Persona Engine successfully updated and activated!');
       closeModal('adminProfileModal');
-      loadProfile();
-      loadStatus();
+      await loadProfile();
+      await loadSettings();
+      await loadStatus();
     });
   }
 
@@ -1599,7 +1646,7 @@ function setupEventListeners() {
   const btnHelp = document.getElementById('btnHelpCenter');
   if (btnHelp) {
     btnHelp.addEventListener('click', () => {
-      alert('WhatsApp Automation Suite Guide:\n\n1. Click your Profile icon (top-right) to set your Admin & Business Persona.\n2. Scan QR code in Dashboard to connect your phone.\n3. Add keywords in Automation Rules tab to auto-reply.\n4. Test conversational flows in the Live Simulator!\n5. Use Day/Week/Month/Year and Search to inspect real dispatches.');
+      window.open('https://whatsauto.vedanshh.dev/help', '_blank', 'noreferrer');
     });
   }
 }
